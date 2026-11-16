@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d19">
+<title>DMF SPORTS</title>
+<style>
+:root{
+ --bg:#080d19;--panel:#101a2b;--panel2:#142238;--line:#23334c;
+ --text:#f2f6ff;--muted:#8c9bb2;--blue:#3985ff;--cyan:#42d9e8;
+ --green:#37db9b;--red:#ff5c75;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:245px;background:#0b1322;border-right:1px solid var(--line);padding:23px 15px;flex-shrink:0}
+.logo{font-size:25px;font-weight:900;letter-spacing:-1px;padding:5px 10px 25px}
+.logo span{color:var(--blue)}
+.logo small{display:block;color:var(--muted);font-size:10px;letter-spacing:4px;margin-top:5px}
+.nav-title{font-size:10px;color:#65758e;letter-spacing:2px;font-weight:bold;padding:17px 11px 8px}
+.nav button{width:100%;border:0;background:transparent;color:#aab8ce;text-align:left;padding:12px;border-radius:10px;margin:2px 0;display:flex;gap:11px;align-items:center;font-size:13px}
+.nav button:hover,.nav button.active{background:#172b49;color:white}
+.nav button.active{box-shadow:inset 3px 0 var(--blue)}
+.nav-icon{width:21px;text-align:center;font-size:16px}
+.main{flex:1;min-width:0;padding:24px 30px 50px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:24px}
+.breadcrumb{color:var(--muted);font-size:12px}
+.top-actions{display:flex;gap:9px;align-items:center}
+.search-wrap{position:relative;width:min(360px,55vw)}
+.search{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:12px 14px;color:white;outline:none}
+.search:focus{border-color:var(--blue)}
+.search-results{position:absolute;top:47px;left:0;right:0;background:#111d30;border:1px solid var(--line);border-radius:12px;z-index:20;display:none;max-height:350px;overflow:auto;box-shadow:0 15px 35px #0009}
+.search-results button{display:block;width:100%;text-align:left;background:none;border:0;color:white;padding:12px 14px}
+.search-results button:hover{background:#1b3151}
+.search-results small{display:block;color:var(--muted);margin-top:4px}
+.icon-btn,.secondary-btn{background:var(--panel);border:1px solid var(--line);color:white;padding:11px 14px;border-radius:10px}
+.icon-btn:hover,.secondary-btn:hover{border-color:var(--blue)}
+.page{display:none}.page.active{display:block}
+h1{font-size:29px;margin:0 0 8px;letter-spacing:-1px}
+.subtitle{color:var(--muted);font-size:13px;margin-bottom:23px;line-height:1.5}
+.hero{position:relative;overflow:hidden;min-height:250px;border:1px solid #263d62;border-radius:19px;background:radial-gradient(ellipse at 75% 50%,#183d70 0,#10213b 37%,#101827 75%);padding:30px;display:flex;align-items:center;margin-bottom:25px}
+.hero:before,.hero:after{content:"";position:absolute;width:450px;height:450px;border:1px solid #4a8bff33;border-radius:50%;right:4%;top:-100px;animation:ring 9s linear infinite}
+.hero:after{width:340px;height:340px;right:9%;top:-45px;animation-direction:reverse}
+@keyframes ring{to{transform:rotate(360deg)}}
+.hero-copy{position:relative;z-index:2;max-width:480px}
+.eyebrow{color:#6ecbff;font-size:10px;letter-spacing:3px;font-weight:bold;margin-bottom:13px}
+.hero h1{font-size:clamp(30px,5vw,49px);line-height:1.02;margin-bottom:12px}
+.hero p{color:#b6c8e2;font-size:13px;line-height:1.6;max-width:400px}
+.ball-scene{position:absolute;right:10%;top:50%;transform:translateY(-50%);width:180px;height:180px;display:grid;place-items:center}
+.ball-glow{position:absolute;width:175px;height:175px;border-radius:50%;background:#248bff33;filter:blur(25px);animation:pulse 2s infinite alternate}
+@keyframes pulse{to{transform:scale(1.25);opacity:.5}}
+.ball{position:relative;width:105px;height:105px;border-radius:50%;background:radial-gradient(circle at 32% 25%,#fff 0,#dce8f7 42%,#7f9cbd 75%,#263b5c 100%);box-shadow:0 0 25px #69b7ff99,0 18px 30px #0008;animation:float 3s ease-in-out infinite,spin 12s linear infinite}
+.ball:before{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from 10deg,#17283c 0deg 8deg,transparent 8deg 42deg);opacity:.75;mask:radial-gradient(circle,transparent 0 19%,#000 20% 23%,transparent 24% 39%,#000 40% 44%,transparent 45%)}
+.ball:after{content:"";position:absolute;inset:18px;border:2px solid #263b54;border-radius:50%;opacity:.5}
+@keyframes float{50%{transform:translateY(-13px)}}
+@keyframes spin{to{rotate:360deg}}
+.trail{position:absolute;width:200px;height:55px;border:3px solid transparent;border-top-color:#5adfff;border-radius:50%;transform:rotate(-28deg);filter:drop-shadow(0 0 8px #27bfff);animation:trail 2s ease-in-out infinite}
+.trail.two{width:240px;height:85px;border-top-color:#4788ff;transform:rotate(25deg);animation-delay:.5s}
+@keyframes trail{50%{opacity:.3;transform:rotate(5deg) scale(1.12)}}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:27px 0 14px}
+.section-head h2{font-size:17px;margin:0}
+.section-head button{background:none;border:0;color:#70aaff;font-size:12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px}
+.sport-card,.comp-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:17px;cursor:pointer;transition:.2s}
+.sport-card:hover,.comp-card:hover{transform:translateY(-3px);border-color:#4389f5;background:#14243b}
+.sport-card .emoji{font-size:25px;margin-bottom:13px}
+.sport-card strong,.comp-card strong{display:block;font-size:14px}
+.sport-card small,.comp-card small{display:block;color:var(--muted);font-size:11px;margin-top:6px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px;margin-top:15px}
+.panel h3{font-size:15px;margin:0 0 13px}
+.match{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 4px;border-bottom:1px solid #223149;cursor:pointer}
+.match:last-child{border:0}
+.match:hover{background:#ffffff08}
+.teams{min-width:0;flex:1}
+.teamline{font-size:13px;margin:4px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.score{text-align:right;font-size:16px;font-weight:bold;min-width:65px}
+.match-meta{font-size:10px;color:var(--muted);margin-top:5px}
+.live{color:var(--green);font-size:10px;font-weight:bold}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.chip{background:var(--panel);border:1px solid var(--line);color:#aebbd0;border-radius:30px;padding:8px 13px;font-size:11px}
+.chip.active{background:#1c3d6b;color:white;border-color:#397fe5}
+.competition-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.comp-card{display:flex;align-items:center;gap:13px}
+.comp-icon{width:42px;height:42px;border-radius:12px;background:#1c3456;display:grid;place-items:center;font-size:20px;flex-shrink:0}
+.comp-card .star{margin-left:auto;color:#f5c85b;font-size:19px}
+.empty{padding:30px 15px;text-align:center;color:var(--muted);font-size:13px;line-height:1.7}
+.notice{color:var(--muted);font-size:11px;line-height:1.6;margin-top:13px}
+.detail-top{display:flex;align-items:center;gap:12px;margin:10px 0 20px}
+.back{border:1px solid var(--line);background:var(--panel);color:white;border-radius:9px;padding:10px 13px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.tab{background:transparent;color:#aab9cf;border:1px solid var(--line);border-radius:9px;padding:9px 13px;font-size:12px}
+.tab.active{background:#1b3b66;color:white;border-color:#367ce1}
+.table{width:100%;border-collapse:collapse;font-size:12px}
+.table th,.table td{padding:12px 8px;border-bottom:1px solid var(--line);text-align:left}
+.table th{color:var(--muted);font-weight:normal}
+.mobile-menu{display:none}
+.footer{color:#5d6d85;text-align:center;font-size:10px;margin-top:35px}
+a{color:#79b6ff}
+@media(max-width:760px){
+ .sidebar{position:fixed;z-index:30;left:-260px;top:0;bottom:0;transition:.25s;box-shadow:10px 0 30px #0008}
+ .sidebar.open{left:0}
+ .main{padding:17px 14px 35px}
+ .mobile-menu{display:block}
+ .topbar{align-items:flex-start}
+ .search-wrap{width:min(245px,53vw)}
+ .hero{min-height:235px;padding:23px}
+ .ball-scene{right:-15px;opacity:.65;transform:translateY(-50%) scale(.75)}
+ .hero-copy{max-width:75%}
+ h1{font-size:25px}
+}
+@media(max-width:430px){.search-wrap{width:calc(100vw - 125px)}.hero-copy{max-width:100%}.ball-scene{opacity:.28;right:-45px}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+ <div class="logo">DMF<span>.</span>SPORTS<small>YOUR SPORTS CENTER</small></div>
+ <nav class="nav">
+  <div class="nav-title">GENERAL</div>
+  <button class="active" data-page="home"><span class="nav-icon">⌂</span>Inicio</button>
+  <button data-page="results"><span class="nav-icon">▤</span>Resultados</button>
+  <button data-page="competitions"><span class="nav-icon">🏆</span>Competiciones</button>
+  <button data-page="favorites"><span class="nav-icon">★</span>Favoritos</button>
+  <div class="nav-title">DEPORTES</div>
+  <button data-sport="football"><span class="nav-icon">⚽</span>Fútbol</button>
+  <button data-sport="basketball"><span class="nav-icon">🏀</span>Baloncesto</button>
+  <button data-sport="tennis"><span class="nav-icon">🎾</span>Tenis</button>
+  <button data-sport="f1"><span class="nav-icon">🏎️</span>Fórmula 1</button>
+  <button data-sport="american"><span class="nav-icon">🏈</span>Fútbol americano</button>
+ </nav>
+</aside>
+<main class="main">
+ <header class="topbar">
+  <div style="display:flex;align-items:center;gap:10px">
+   <button class="icon-btn mobile-menu" id="menuBtn">☰</button>
+   <div class="breadcrumb">DMF SPORTS / <span id="crumb">INICIO</span></div>
+  </div>
+  <div class="top-actions">
+   <div class="search-wrap">
+    <input class="search" id="search" placeholder="Buscar liga, equipo..." autocomplete="off">
+    <div class="search-results" id="searchResults"></div>
+   </div>
+   <button class="icon-btn" id="refresh" title="Actualizar">↻</button>
+  </div>
+ </header>
+
+ <section class="page active" id="page-home">
+  <div class="hero">
+   <div class="hero-copy">
+    <div class="eyebrow">DMF SPORTS · LIVE THE GAME</div>
+    <h1>EL DEPORTE<br>EN UN SOLO LUGAR.</h1>
+    <p>Competiciones, marcadores y tus equipos favoritos. Todo el deporte desde DMF.</p>
+   </div>
+   <div class="ball-scene"><div class="ball-glow"></div><div class="trail"></div><div class="trail two"></div><div class="ball"></div></div>
+  </div>
+  <div class="section-head"><h2>Explora los deportes</h2></div>
+  <div class="cards" id="sportCards"></div>
+  <div class="section-head"><h2>Competiciones destacadas</h2><button data-goto="competitions">Ver todas →</button></div>
+  <div class="competition-grid" id="featured"></div>
+  <div class="section-head"><h2>Últimos resultados</h2><button data-goto="results">Ver resultados →</button></div>
+  <div class="panel" id="homeMatches"><div class="empty">Cargando resultados...</div></div>
+  <div class="section-head"><h2>Últimas noticias de fútbol · MARCA</h2><button type="button" id="refreshMarca">Actualizar noticias ↻</button></div>
+  <div class="panel" id="marcaNews" aria-live="polite"><div class="empty">Cargando noticias actuales de MARCA...</div></div>
+  <div class="notice">Titulares actuales publicados por MARCA. Selecciona uno para abrir la noticia original.</div>
+ </section>
+
+ <section class="page" id="page-results">
+  <h1>Resultados</h1><div class="subtitle">Consulta los marcadores de las competiciones disponibles.</div>
+  <div class="filters" id="resultFilters"></div>
+  <div class="panel" id="resultsList"><div class="empty">Selecciona un deporte para consultar resultados.</div></div>
+ </section>
+
+ <section class="page" id="page-competitions">
+  <h1>Competiciones</h1><div class="subtitle">Encuentra ligas y torneos de diferentes deportes.</div>
+  <div class="filters" id="compFilters"></div>
+  <div class="competition-grid" id="competitionGrid"></div>
+  <div class="notice">La disponibilidad de marcadores y clasificaciones depende de las fuentes de datos de cada competición.</div>
+ </section>
+
+ <section class="page" id="page-favorites">
+  <h1>Mis favoritos</h1><div class="subtitle">Tus competiciones guardadas.</div>
+  <div class="competition-grid" id="favoriteGrid"></div>
+ </section>
+
+ <section class="page" id="page-sport">
+  <div class="detail-top"><button class="back" data-goto="home">← Volver</button><div><h1 id="sportTitle">Deporte</h1><div class="subtitle" id="sportSubtitle"></div></div></div>
+  <div class="competition-grid" id="sportCompetitions"></div>
+  <div class="section-head"><h2>Resultados</h2></div>
+  <div class="panel" id="sportMatches"><div class="empty">Selecciona una competición.</div></div>
+ </section>
+
+ <section class="page" id="page-detail">
+  <div class="detail-top"><button class="back" data-goto="competitions">← Volver</button><div><h1 id="detailTitle">Competición</h1><div class="subtitle" id="detailSubtitle"></div></div></div>
+  <div class="tabs">
+   <button class="tab active" data-tab="matches">Resultados</button>
+   <button class="tab" data-tab="table">Clasificación</button>
+   <button class="tab" data-tab="info">Información</button>
+  </div>
+  <div class="panel" id="detailContent"><div class="empty">Cargando...</div></div>
+ </section>
+
+ <section class="page" id="page-match">
+  <div class="detail-top"><button class="back" id="matchBack">← Volver</button><div><h1>Detalle del partido</h1><div class="subtitle" id="matchLeague"></div></div></div>
+  <div class="panel" id="matchContent"></div>
+ </section>
+ <div class="footer">DMF SPORTS · UNA SECCIÓN DE DMF</div>
+</main>
+</div>
+
+<script>
+"use strict";
+const competitions=[
+ {id:"laliga",name:"LaLiga EA Sports",short:"LaLiga",sport:"football",path:"soccer",slug:"esp.1",country:"España",icon:"🇪🇸",aliases:"liga española primera division laliga santander"},
+ {id:"segunda",name:"LaLiga Hypermotion",short:"Segunda",sport:"football",path:"soccer",slug:"esp.2",country:"España",icon:"🇪🇸",aliases:"segunda division"},
+ {id:"premier",name:"Premier League",short:"Premier",sport:"football",path:"soccer",slug:"eng.1",country:"Inglaterra",icon:"🏴",aliases:"premier inglesa"},
+ {id:"champions",name:"UEFA Champions League",short:"Champions",sport:"football",path:"soccer",slug:"uefa.champions",country:"Europa",icon:"⭐",aliases:"champions league ucl copa europa"},
+ {id:"europa",name:"UEFA Europa League",short:"Europa League",sport:"football",path:"soccer",slug:"uefa.europa",country:"Europa",icon:"🟠",aliases:"europa league"},
+ {id:"seriea",name:"Serie A",short:"Serie A",sport:"football",path:"soccer",slug:"ita.1",country:"Italia",icon:"🇮🇹",aliases:"liga italiana"},
+ {id:"bundesliga",name:"Bundesliga",short:"Bundesliga",sport:"football",path:"soccer",slug:"ger.1",country:"Alemania",icon:"🇩🇪",aliases:"liga alemana"},
+ {id:"ligue1",name:"Ligue 1",short:"Ligue 1",sport:"football",path:"soccer",slug:"fra.1",country:"Francia",icon:"🇫🇷",aliases:"liga francesa"},
+ {id:"rfaf",name:"RFAF · Fútbol Andaluz",short:"RFAF",sport:"football",path:"",slug:"",country:"Andalucía",icon:"🟢",aliases:"rfaf federacion andaluza federación andaluza futbol futbol andaluz andalucia cadiz jerez"},
+ {id:"nba",name:"NBA",short:"NBA",sport:"basketball",path:"basketball",slug:"nba",country:"Estados Unidos",icon:"🏀",aliases:"baloncesto nba"},
+ {id:"acb",name:"Liga ACB",short:"ACB",sport:"basketball",path:"basketball",slug:"acb",country:"España",icon:"🇪🇸",aliases:"liga endesa acb"},
+ {id:"f1",name:"Fórmula 1",short:"F1",sport:"f1",path:"racing",slug:"f1",country:"Mundial",icon:"🏎️",aliases:"formula uno formula 1 gran premio"},
+ {id:"nfl",name:"NFL",short:"NFL",sport:"american",path:"football",slug:"nfl",country:"Estados Unidos",icon:"🏈",aliases:"futbol americano"},
+ {id:"atp",name:"ATP Tour",short:"ATP",sport:"tennis",path:"tennis",slug:"atp",country:"Mundial",icon:"🎾",aliases:"tenis atp"}
+];
+const sports=[
+ {id:"football",name:"Fútbol",icon:"⚽",desc:"Ligas y torneos de fútbol"},
+ {id:"basketball",name:"Baloncesto",icon:"🏀",desc:"NBA y competiciones de baloncesto"},
+ {id:"tennis",name:"Tenis",icon:"🎾",desc:"Circuito profesional"},
+ {id:"f1",name:"Fórmula 1",icon:"🏎️",desc:"Mundial de automovilismo"},
+ {id:"american",name:"Fútbol americano",icon:"🏈",desc:"NFL"}
+];
+let favorites=JSON.parse(localStorage.getItem("dmfSportsFavorites")||"[]");
+let eventStore={};
+let currentComp=null,currentSport=null,currentTab="matches",returnPage="results";
+let resultSport="football",compSport="all";
+const $=id=>document.getElementById(id);
+const norm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+function showPage(name){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ const page=$("page-"+name);if(page)page.classList.add("active");
+ $("crumb").textContent=name.toUpperCase();
+ document.querySelectorAll(".nav button[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===name));
+ $("sidebar").classList.remove("open");
+}
+function compCard(c){
+ const fav=favorites.includes(c.id);
+ return `<div class="comp-card" data-comp="${c.id}">
+ <div class="comp-icon">${c.icon}</div><div style="min-width:0"><strong>${c.name}</strong><small>${c.country} · ${sportName(c.sport)}</small></div>
+ <span class="star" data-star="${c.id}" title="Favorito">${fav?"★":"☆"}</span></div>`;
+}
+function sportName(id){return sports.find(s=>s.id===id)?.name||id}
+function renderBasics(){
+ $("sportCards").innerHTML=sports.map(s=>`<div class="sport-card" data-sport="${s.id}"><div class="emoji">${s.icon}</div><strong>${s.name}</strong><small>${s.desc}</small></div>`).join("");
+ $("featured").innerHTML=competitions.filter(c=>["laliga","premier","champions","nba","rfaf","f1"].includes(c.id)).map(compCard).join("");
+ $("compFilters").innerHTML=`<button class="chip active" data-cfilter="all">Todos</button>`+sports.map(s=>`<button class="chip" data-cfilter="${s.id}">${s.icon} ${s.name}</button>`).join("");
+ $("resultFilters").innerHTML=sports.map(s=>`<button class="chip ${s.id===resultSport?"active":""}" data-rfilter="${s.id}">${s.icon} ${s.name}</button>`).join("");
+ renderCompetitions();renderFavorites();
+}
+function renderCompetitions(){
+ const list=competitions.filter(c=>compSport==="all"||c.sport===compSport);
+ $("competitionGrid").innerHTML=list.map(compCard).join("");
+}
+function renderFavorites(){
+ const list=competitions.filter(c=>favorites.includes(c.id));
+ $("favoriteGrid").innerHTML=list.length?list.map(compCard).join(""):`<div class="empty">Todavía no tienes competiciones favoritas.<br>Pulsa ☆ en una competición para guardarla.</div>`;
+}
+function toggleFavorite(id){
+ favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];
+ localStorage.setItem("dmfSportsFavorites",JSON.stringify(favorites));
+ renderBasics();
+ if(currentComp)renderDetailHeader();
+}
+function openSport(id){
+ currentSport=id;const s=sports.find(x=>x.id===id);if(!s)return;
+ $("sportTitle").textContent=s.icon+" "+s.name;$("sportSubtitle").textContent=s.desc;
+ const list=competitions.filter(c=>c.sport===id);
+ $("sportCompetitions").innerHTML=list.map(compCard).join("");
+ $("sportMatches").innerHTML=`<div class="empty">Selecciona una competición para ver sus resultados.</div>`;
+ showPage("sport");
+}
+function openCompetition(id){
+ const c=competitions.find(x=>x.id===id);if(!c)return;
+ currentComp=c;currentTab="matches";renderDetailHeader();showPage("detail");loadDetail();
+}
+function renderDetailHeader(){
+ if(!currentComp)return;
+ $("detailTitle").textContent=currentComp.icon+" "+currentComp.name;
+ $("detailSubtitle").textContent=currentComp.country+" · "+sportName(currentComp.sport)+(favorites.includes(currentComp.id)?" · ★ Favorito":"");
+}
+function apiUrl(c,extra="scoreboard"){
+ return `https://site.api.espn.com/apis/site/v2/sports/${c.path}/${c.slug}/${extra}`;
+}
+async function getJSON(url){
+ const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),12000);
+ try{const r=await fetch(url,{signal:controller.signal});if(!r.ok)throw Error("HTTP "+r.status);return await r.json()}
+ finally{clearTimeout(timer)}
+}
+function getTeam(e,side){
+ const c=e.competitions?.[0]?.competitors||[];
+ return c.find(x=>x.homeAway===side)||c[side==="home"?0:1]||{};
+}
+function eventName(t){return t.team?.displayName||t.team?.name||"Equipo"}
+function eventScore(t){return t.score??"–"}
+
+function eventStatus(e){
+ const s=e.status?.type;
+ if(s?.state==="in")return `<span class="live">● EN JUEGO</span>`;
+ if(s?.completed)return "FINALIZADO";
+ return s?.shortDetail||s?.detail||"PRÓXIMO";
+}
+
+function formatDate(e){
+ const d=new Date(e.date);
+ if(isNaN(d))return "";
+ return d.toLocaleString("es-ES",{
+  day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"
+ });
+}
+
+function renderEvents(events,target,compId){
+ if(!events?.length){
+  $(target).innerHTML=`<div class="empty">No hay resultados disponibles en este momento.</div>`;
+  return;
+ }
+ events.forEach(e=>eventStore[e.id]={event:e,compId});
+ $(target).innerHTML=events.map(e=>{
+  const h=getTeam(e,"home"),a=getTeam(e,"away"),status=e.status?.type;
+  const score=status?.state==="pre"?formatDate(e):`${eventScore(h)} – ${eventScore(a)}`;
+  return `<div class="match" data-event="${e.id}">
+   <div class="teams">
+    <div class="teamline">${eventName(h)}</div>
+    <div class="teamline">${eventName(a)}</div>
+    <div class="match-meta">${formatDate(e)} · ${eventStatus(e)}</div>
+   </div>
+   <div class="score">${score}</div>
+  </div>`;
+ }).join("");
+}
+
+async function loadEvents(c,target){
+ if(!c?.slug||!c.path){
+  $(target).innerHTML=`<div class="empty">
+   Esta competición utiliza una fuente externa.<br>
+   <a href="https://rfaf.es/" target="_blank" rel="noopener">Consultar la web oficial de la RFAF ↗</a>
+  </div>`;
+  return;
+ }
+ $(target).innerHTML=`<div class="empty">Cargando resultados...</div>`;
+ try{
+  const data=await getJSON(apiUrl(c));
+  renderEvents(data.events||[],target,c.id);
+ }catch(e){
+  $(target).innerHTML=`<div class="empty">
+   No se han podido cargar los resultados.<br>
+   La fuente puede estar temporalmente fuera de servicio o no permitir la conexión.<br>
+   <button class="secondary-btn" onclick="retryEvents('${c.id}','${target}')">Reintentar</button>
+  </div>`;
+ }
+}
+
+window.retryEvents=(id,target)=>{
+ const c=competitions.find(x=>x.id===id);
+ if(c)loadEvents(c,target);
+};
+
+async function loadMarcaNews(){
+ const target=$("marcaNews");
+ target.innerHTML=`<div class="empty">Cargando noticias actuales de MARCA...</div>`;
+ try{
+  const url="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent("https://www.marca.com/rss/futbol.xml");
+  const data=await getJSON(url);
+  const items=(data.status==="ok"?data.items:[])||[];
+  if(!items.length)throw Error("Feed sin noticias");
+  target.innerHTML=items.slice(0,8).map(item=>{
+   const title=String(item.title||"Noticia de fútbol").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+   let link="https://www.marca.com/futbol.html";
+   try{const parsed=new URL(item.link);if(parsed.protocol==="https:"&&parsed.hostname==="www.marca.com")link=parsed.href}catch{}
+   const date=item.pubDate?new Date(item.pubDate).toLocaleString("es-ES",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"}):"";
+   return `<a class="match marca-item" href="${link}" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:inherit"><div class="teams"><div class="teamline" style="white-space:normal;font-weight:700">${title}</div><div class="match-meta">MARCA · ${date}</div></div><span aria-hidden="true" style="color:var(--cyan)">↗</span></a>`;
+  }).join("");
+ }catch(e){
+  target.innerHTML=`<div class="empty">No se pudieron actualizar las noticias de MARCA ahora mismo.<br><button class="secondary-btn" type="button" onclick="loadMarcaNews()">Reintentar</button></div>`;
+ }
+}
+
+async function loadHome(){
+ const ids=["laliga","premier","champions","nba"];
+ const jobs=ids.map(id=>{
+  const c=competitions.find(x=>x.id===id);
+  return getJSON(apiUrl(c))
+   .then(d=>({c,events:d.events||[]}))
+   .catch(()=>({c,events:[]}));
+ });
+ const results=await Promise.all(jobs);
+ let all=[];
+ results.forEach(r=>{
+  r.events.forEach(e=>eventStore[e.id]={event:e,compId:r.c.id});
+  all.push(...r.events);
+ });
+ all.sort((a,b)=>new Date(b.date)-new Date(a.date));
+
+ if(!all.length){
+  $("homeMatches").innerHTML=`<div class="empty">
+   No se han podido cargar resultados ahora mismo.<br>
+   Prueba a actualizar más tarde.
+  </div>`;
+  return;
+ }
+
+ $("homeMatches").innerHTML=all.slice(0,9).map(e=>{
+  const h=getTeam(e,"home"),a=getTeam(e,"away"),st=e.status?.type;
+  return `<div class="match" data-event="${e.id}">
+   <div class="teams">
+    <div class="teamline">${eventName(h)}</div>
+    <div class="teamline">${eventName(a)}</div>
+    <div class="match-meta">${eventStore[e.id].compId.toUpperCase()} · ${eventStatus(e)}</div>
+   </div>
+   <div class="score">${st?.state==="pre"?formatDate(e):eventScore(h)+" – "+eventScore(a)}</div>
+  </div>`;
+ }).join("");
+}
+
+async function loadResults(){
+ const list=competitions.filter(c=>c.sport===resultSport&&c.slug);
+ $("resultsList").innerHTML=
+  `<div class="empty">Elige una competición:</div>`+
+  list.map(c=>`<button class="chip" data-resultcomp="${c.id}">${c.icon} ${c.short}</button>`).join("");
+}
+
+async function loadDetail(){
+ if(!currentComp)return;
+ const c=currentComp;
+
+ document.querySelectorAll("[data-tab]").forEach(b=>
+  b.classList.toggle("active",b.dataset.tab===currentTab)
+ );
+
+ if(c.id==="rfaf"){
+  $("detailContent").innerHTML=`
+   <h3>Federación Andaluza de Fútbol</h3>
+   <p class="subtitle">Consulta los resultados y clasificaciones oficiales de las competiciones andaluzas.</p>
+   <a href="https://stars.rfaf.es/" target="_blank" rel="noopener">Abrir plataforma oficial RFAF ↗</a>
+   <p class="notice">El contenido oficial puede no permitir mostrarse dentro de otras páginas.</p>`;
+  return;
+ }
+
+ if(currentTab==="matches"){
+  await loadEvents(c,"detailContent");
+  return;
+ }
+
+ if(currentTab==="table"){
+  $("detailContent").innerHTML=`<div class="empty">Cargando clasificación...</div>`;
+  try{
+   const data=await getJSON(apiUrl(c,"standings"));
+   const entries=data.children?.[0]?.standings?.entries||
+                 data.standings?.entries||[];
+
+   if(!entries.length)throw Error("Sin clasificación");
+
+   $("detailContent").innerHTML=`
+    <div style="overflow-x:auto">
+     <table class="table">
+      <thead><tr>
+       <th>#</th><th>Equipo</th><th>PJ</th>
+       <th>G</th><th>E</th><th>P</th><th>PTS</th>
+      </tr></thead>
+      <tbody>
+       ${entries.map((x,i)=>{
+        const s=x.stats||{};
+        const stat=k=>s[k]?.displayValue??s[k]?.value??"–";
+        return `<tr>
+         <td>${i+1}</td>
+         <td>${x.team?.displayName||"Equipo"}</td>
+         <td>${stat("gamesPlayed")}</td>
+         <td>${stat("wins")}</td>
+         <td>${stat("ties")}</td>
+         <td>${stat("losses")}</td>
+         <td><b>${stat("points")}</b></td>
+        </tr>`;
+       }).join("")}
+      </tbody>
+     </table>
+    </div>`;
+  }catch(e){
+   $("detailContent").innerHTML=`
+    <div class="empty">No hay una clasificación disponible para esta competición en la fuente de datos.</div>`;
+  }
+  return;
+ }
+
+ $("detailContent").innerHTML=`
+  <h3>${c.name}</h3>
+  <p class="subtitle">${c.country} · ${sportName(c.sport)}</p>
+  <p>Competición deportiva disponible en DMF SPORTS.</p>
+  <button class="secondary-btn" id="detailFav">
+   ${favorites.includes(c.id)?"★ Quitar de favoritos":"☆ Añadir a favoritos"}
+  </button>`;
+
+ $("detailFav").onclick=()=>{
+  toggleFavorite(c.id);
+  loadDetail();
+ };
+}
+
+async function openMatch(id){
+ const stored=eventStore[id];
+ if(!stored)return;
+
+ const e=stored.event;
+ const c=competitions.find(x=>x.id===stored.compId);
+ returnPage=document.querySelector(".page.active")?.id.replace("page-","")||"results";
+
+ const h=getTeam(e,"home"),a=getTeam(e,"away");
+ const st=e.status?.type;
+
+ $("matchLeague").textContent=c?.name||"Partido";
+
+ $("matchContent").innerHTML=`
+  <div style="text-align:center;padding:20px 5px">
+   <div class="match-meta">${formatDate(e)} · ${eventStatus(e)}</div>
+   <div style="display:flex;justify-content:space-around;align-items:center;gap:15px;margin:30px 0">
+    <div style="flex:1">
+     <div style="font-size:38px">⚽</div>
+     <strong>${eventName(h)}</strong>
+    </div>
+    <div style="font-size:27px;font-weight:bold">
+     ${st?.state==="pre"?"VS":eventScore(h)+" - "+eventScore(a)}
+    </div>
+    <div style="flex:1">
+     <div style="font-size:38px">⚽</div>
+     <strong>${eventName(a)}</strong>
+    </div>
+   </div>
+   <div class="notice">
+    Información proporcionada por la fuente de resultados.
+    Las estadísticas detalladas pueden no estar disponibles.
+   </div>
+  </div>`;
+
+ showPage("match");
+}
+
+function searchItems(q){
+ const query=norm(q);
+ if(!query)return [];
+
+ const comps=competitions.filter(c=>
+  norm([c.name,c.short,c.country,c.aliases].join(" ")).includes(query)
+ );
+
+ const teams=Object.entries(eventStore).flatMap(([id,obj])=>{
+  const e=obj.event;
+  return [getTeam(e,"home"),getTeam(e,"away")]
+   .map(t=>({id,name:eventName(t),compId:obj.compId}))
+   .filter(t=>norm(t.name).includes(query));
+ });
+
+ return [
+  ...comps.map(c=>({
+   type:"comp",id:c.id,name:c.name,
+   sub:"Competición · "+c.country
+  })),
+  ...[...new Map(teams.map(t=>[t.name,t])).values()]
+   .slice(0,8)
+   .map(t=>({
+    type:"team",id:t.id,name:t.name,
+    sub:"Equipo · "+(competitions.find(c=>c.id===t.compId)?.name||"Deporte")
+   }))
+ ].slice(0,12);
+}
+
+function doSearch(q){
+ const box=$("searchResults");
+ if(!q.trim()){
+  box.style.display="none";
+  return;
+ }
+
+ const items=searchItems(q);
+ box.innerHTML=items.length?
+  items.map((x,i)=>`
+   <button data-search-index="${i}">
+    ${x.name}<small>${x.sub}</small>
+   </button>`).join("")
+  :`<div class="empty">No se han encontrado coincidencias.<br>
+    Prueba con un nombre más corto o una abreviatura.</div>`;
+
+ box._items=items;
+ box.style.display="block";
+}
+
+function selectSearch(x){
+ $("searchResults").style.display="none";
+ if(x.type==="comp")openCompetition(x.id);
+ else openMatch(x.id);
+}
+
+$("search").addEventListener("input",e=>doSearch(e.target.value));
+
+$("search").addEventListener("keydown",e=>{
+ if(e.key==="Enter"){
+  const items=$("searchResults")._items||[];
+  if(items[0])selectSearch(items[0]);
+ }
+ if(e.key==="Escape")$("searchResults").style.display="none";
+});
+
+document.addEventListener("click",e=>{
+ const nav=e.target.closest("[data-page]");
+ if(nav){
+  showPage(nav.dataset.page);
+  if(nav.dataset.page==="results")loadResults();
+ }
+
+ const goto=e.target.closest("[data-goto]");
+ if(goto){
+  showPage(goto.dataset.goto);
+  if(goto.dataset.goto==="results")loadResults();
+ }
+
+ const sport=e.target.closest("[data-sport]");
+ if(sport)openSport(sport.dataset.sport);
+
+ const comp=e.target.closest("[data-comp]");
+ if(comp&&!e.target.closest("[data-star]"))
+  openCompetition(comp.dataset.comp);
+
+ const star=e.target.closest("[data-star]");
+ if(star){
+  e.stopPropagation();
+  toggleFavorite(star.dataset.star);
+ }
+
+ const tab=e.target.closest("[data-tab]");
+ if(tab){
+  currentTab=tab.dataset.tab;
+  loadDetail();
+ }
+
+ const cf=e.target.closest("[data-cfilter]");
+ if(cf){
+  compSport=cf.dataset.cfilter;
+  document.querySelectorAll("[data-cfilter]").forEach(b=>
+   b.classList.toggle("active",b===cf)
+  );
+  renderCompetitions();
+ }
+
+ const rf=e.target.closest("[data-rfilter]");
+ if(rf){
+  resultSport=rf.dataset.rfilter;
+  document.querySelectorAll("[data-rfilter]").forEach(b=>
+   b.classList.toggle("active",b===rf)
+  );
+  loadResults();
+ }
+
+ const rc=e.target.closest("[data-resultcomp]");
+ if(rc){
+  const c=competitions.find(x=>x.id===rc.dataset.resultcomp);
+  if(c)loadEvents(c,"resultsList");
+ }
+
+ const ev=e.target.closest("[data-event]");
+ if(ev)openMatch(ev.dataset.event);
+
+ const si=e.target.closest("[data-search-index]");
+ if(si){
+  const items=$("searchResults")._items||[];
+  if(items[Number(si.dataset.searchIndex)])
+   selectSearch(items[Number(si.dataset.searchIndex)]);
+ }
+});
+
+$("menuBtn").onclick=()=>
+ $("sidebar").classList.toggle("open");
+
+$("refresh").onclick=()=>{
+ const active=document.querySelector(".page.active")?.id;
+ loadMarcaNews();
+ if(active==="page-home")loadHome();
+ else if(active==="page-detail")loadDetail();
+ else if(active==="page-results")loadResults();
+ else if(active==="page-sport"){
+  $("sportMatches").innerHTML=`
+   <div class="empty">Selecciona una competición para consultar resultados.</div>`;
+ }
+};
+
+renderBasics();
+loadHome();
+loadMarcaNews();
+$("refreshMarca").onclick=loadMarcaNews;
+setInterval(loadMarcaNews,10*60*1000);
+</script>
+</body>
+</html>
