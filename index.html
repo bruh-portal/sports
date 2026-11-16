@@ -373,7 +373,7 @@ async function loadMarcaNews(){
  const target=$("marcaNews");
  target.innerHTML=`<div class="empty">Cargando noticias actuales de MARCA...</div>`;
  try{
-  const url="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent("https://www.marca.com/rss/futbol.xml");
+  const url="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent("https://www.marca.com/rss/futbol.xml?output=1");
   const data=await getJSON(url);
   const items=(data.status==="ok"?data.items:[])||[];
   if(!items.length)throw Error("Feed sin noticias");
