@@ -162,6 +162,9 @@ a{color:#79b6ff}
   <div class="competition-grid" id="featured"></div>
   <div class="section-head"><h2>Últimos resultados</h2><button data-goto="results">Ver resultados →</button></div>
   <div class="panel" id="homeMatches"><div class="empty">Cargando resultados...</div></div>
+  <div class="section-head"><h2>Últimas noticias de fútbol · MARCA</h2><button type="button" id="refreshMarca">Actualizar noticias ↻</button></div>
+  <div class="panel" id="marcaNews" aria-live="polite"><div class="empty">Cargando noticias actuales de MARCA...</div></div>
+  <div class="notice">Titulares actuales publicados por MARCA. Selecciona uno para abrir la noticia original.</div>
  </section>
 
  <section class="page" id="page-results">
@@ -365,6 +368,26 @@ window.retryEvents=(id,target)=>{
  const c=competitions.find(x=>x.id===id);
  if(c)loadEvents(c,target);
 };
+
+async function loadMarcaNews(){
+ const target=$("marcaNews");
+ target.innerHTML=`<div class="empty">Cargando noticias actuales de MARCA...</div>`;
+ try{
+  const url="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent("https://www.marca.com/rss/futbol.xml");
+  const data=await getJSON(url);
+  const items=(data.status==="ok"?data.items:[])||[];
+  if(!items.length)throw Error("Feed sin noticias");
+  target.innerHTML=items.slice(0,8).map(item=>{
+   const title=String(item.title||"Noticia de fútbol").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+   let link="https://www.marca.com/futbol.html";
+   try{const parsed=new URL(item.link);if(parsed.protocol==="https:"&&parsed.hostname==="www.marca.com")link=parsed.href}catch{}
+   const date=item.pubDate?new Date(item.pubDate).toLocaleString("es-ES",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"}):"";
+   return `<a class="match marca-item" href="${link}" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:inherit"><div class="teams"><div class="teamline" style="white-space:normal;font-weight:700">${title}</div><div class="match-meta">MARCA · ${date}</div></div><span aria-hidden="true" style="color:var(--cyan)">↗</span></a>`;
+  }).join("");
+ }catch(e){
+  target.innerHTML=`<div class="empty">No se pudieron actualizar las noticias de MARCA ahora mismo.<br><button class="secondary-btn" type="button" onclick="loadMarcaNews()">Reintentar</button></div>`;
+ }
+}
 
 async function loadHome(){
  const ids=["laliga","premier","champions","nba"];
@@ -661,7 +684,7 @@ $("menuBtn").onclick=()=>
 
 $("refresh").onclick=()=>{
  const active=document.querySelector(".page.active")?.id;
-
+ loadMarcaNews();
  if(active==="page-home")loadHome();
  else if(active==="page-detail")loadDetail();
  else if(active==="page-results")loadResults();
@@ -673,6 +696,9 @@ $("refresh").onclick=()=>{
 
 renderBasics();
 loadHome();
+loadMarcaNews();
+$("refreshMarca").onclick=loadMarcaNews;
+setInterval(loadMarcaNews,10*60*1000);
 </script>
 </body>
 </html>
