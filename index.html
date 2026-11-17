@@ -113,6 +113,20 @@ a{color:#79b6ff}
  h1{font-size:25px}
 }
 @media(max-width:430px){.search-wrap{width:calc(100vw - 125px)}.hero-copy{max-width:100%}.ball-scene{opacity:.28;right:-45px}}
+
+/* Futuristic stadium artwork: light and depth instead of the old floating, spinning ball. */
+.future-stadium{width:min(44vw,440px);height:260px;right:4%;overflow:hidden;filter:none;perspective:700px}
+.future-stadium .stadium-glow{position:absolute;inset:8% 3% 12%;border-radius:50%;background:radial-gradient(ellipse,#41e7da26 0,transparent 63%);filter:blur(19px)}
+.future-stadium .stadium-beam{position:absolute;top:0;bottom:18%;width:2px;background:linear-gradient(transparent,#73f7f0aa,transparent);filter:drop-shadow(0 0 12px #52f2e8);opacity:.55;transform-origin:top}
+.future-stadium .beam-a{left:27%;transform:rotate(-24deg)}.future-stadium .beam-b{right:26%;transform:rotate(24deg)}
+.future-stadium .orbit{position:absolute;left:50%;top:51%;width:300px;height:86px;border:1px solid #57eadd55;border-radius:50%;transform:translate(-50%,-50%) rotate(-17deg);box-shadow:0 0 22px #31d9d522,inset 0 0 22px #31d9d511}
+.future-stadium .orbit-b{width:350px;height:112px;transform:translate(-50%,-50%) rotate(18deg);border-color:#368dff55}
+.future-stadium .ball-glow{width:170px;height:170px;background:#3ee4de44;filter:blur(30px);animation:pulse 3s ease-in-out infinite alternate}
+.future-stadium .ball{width:132px;height:132px;box-shadow:inset -13px -15px 26px #04131e99,0 0 36px #42e5dc77,0 0 94px #24b9c433;animation:none}
+.future-stadium .stadium-floor{position:absolute;left:12%;right:12%;bottom:4%;height:32%;border:1px solid #40d8d933;border-radius:50%;transform:rotateX(66deg);background:radial-gradient(ellipse,#36ddd323,transparent 70%);box-shadow:0 0 26px #2dbdbb1a}
+.hero:before,.hero:after{animation:none!important}
+@media(max-width:760px){.future-stadium{right:-16%;opacity:.7;transform:translateY(-50%) scale(.72)}.hero-copy{max-width:72%}}
+@media(max-width:430px){.future-stadium{right:-40%;opacity:.42}.hero-copy{max-width:100%}}
 </style>
 
 <style id="dmf-sports-refresh">
@@ -170,10 +184,8 @@ html{scroll-behavior:smooth}body{background:radial-gradient(ellipse at 61% -14%,
   <div class="hero">
    <div class="hero-copy">
     <div class="eyebrow">DMF SPORTS · LIVE THE GAME</div>
-    <h1>EL DEPORTE<br>EN UN SOLO LUGAR.</h1>
-    <p>Competiciones, marcadores y tus equipos favoritos. Todo el deporte desde DMF.</p>
    </div>
-   <div class="ball-scene"><div class="ball-glow"></div><div class="trail"></div><div class="trail two"></div><div class="ball"></div></div>
+   <div class="ball-scene future-stadium" aria-hidden="true"><div class="stadium-glow"></div><div class="stadium-beam beam-a"></div><div class="stadium-beam beam-b"></div><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="ball-glow"></div><div class="ball"></div><div class="stadium-floor"></div></div>
   </div>
   <div class="section-head"><h2>Explora los deportes</h2></div>
   <div class="cards" id="sportCards"></div>
