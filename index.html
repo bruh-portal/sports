@@ -390,7 +390,7 @@ function espnStandingsGroups(data){
 function renderEspnStandings(c,data){
  const groups=espnStandingsGroups(data);
  if(!groups.length)throw Error("La fuente ESPN no publica tablas de clasificación para esta competición/temporada.");
- const season=data.season?.displayName||groups[0].season||"temporada actual según ESPN";
+ const groupSeasons=[...new Set(groups.map(g=>g.season).filter(Boolean))];const season=groupSeasons.length===1?groupSeasons[0]:groupSeasons.length?groupSeasons.join(" · "):(data.season?.displayName||"temporada vigente de la fuente ESPN");
  let html=`<div class="source-stamp">Fuente: <strong>ESPN</strong> · temporada ${safeText(season)} · datos consultados en directo</div>`;
  for(const group of groups){
   const entries=group.entries.slice().sort((a,b)=>{const sa=espnStatMap(a),sb=espnStatMap(b);if(c.sport==="basketball"||c.id==="nfl")return Number(sb.winPercent||0)-Number(sa.winPercent||0);return Number(sa.rank||a.note?.rank||9999)-Number(sb.rank||b.note?.rank||9999)});
