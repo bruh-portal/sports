@@ -124,6 +124,17 @@ body{background:radial-gradient(ellipse at 64% -10%,#123749 0,transparent 37%),v
 h1{letter-spacing:-.04em}.subtitle{color:#9aafbc}.hero{min-height:265px;border-color:#245463;border-radius:16px;background:linear-gradient(112deg,#0c2837 0%,#0e3342 48%,#102637 100%);box-shadow:0 18px 60px #0002}.hero:before,.hero:after{border-color:#54dfd222}.eyebrow{color:#6be5df}.hero p{color:#c1d2d8}.ball-glow{background:#31d4cb33}.trail{border-top-color:#45e0d7;filter:drop-shadow(0 0 9px #27bfbf)}
 .section-head{margin-top:29px}.section-head h2{font-size:18px;letter-spacing:-.02em}.section-head button{color:#59ddd7}.sport-card,.comp-card,.panel{background:linear-gradient(145deg,#102232,#0d1b29);border-color:#223b4d;border-radius:13px;box-shadow:0 8px 24px #0002}.sport-card:hover,.comp-card:hover{border-color:#33bfc1;background:#123143;transform:translateY(-2px)}.sport-card .emoji{color:var(--cyan)}.comp-icon{background:#103643;color:#5ee1dc;border:1px solid #205465}.comp-card .star{color:#ffcc62}.match{border-color:#20394b}.match:hover{background:#ffffff07}.score{color:#f5fbfc}.live{color:#5ae4a4}.chip{background:#102130;border-color:#263e4e;border-radius:8px;color:#b8c9d2}.chip.active,.tab.active{background:#10424a;border-color:#32c9c8;color:#f5ffff}.tab{border-radius:8px}.panel{padding:18px}.table th{background:#102231;color:#a6bbc6;white-space:nowrap}.table td{color:#e5eff3}.table tr:hover td{background:#ffffff06}.source-stamp{padding:9px 12px;border-left:3px solid var(--cyan);background:#0d2630;border-radius:0 8px 8px 0}.empty{color:#a4b7c2}.footer{color:#718995}
 @media(max-width:760px){.main{padding:14px 12px 32px}.hero{min-height:225px}.panel{padding:12px}.section-head{margin-top:23px}}
+
+/* Broadcast-inspired stadium light: abstract geometry only, no player imagery. */
+.hero{isolation:isolate;background:radial-gradient(ellipse at 79% 48%,rgba(28,112,185,.26),transparent 30%),linear-gradient(112deg,#0c2837 0%,#0e3342 48%,#102637 100%)}
+.hero:before{box-shadow:0 0 42px rgba(57,224,211,.08),inset 0 0 45px rgba(60,184,216,.04)}
+.ball{background:radial-gradient(circle at 32% 24%,#fff 0,#e7f4fa 38%,#91b7cc 70%,#28465c 100%);box-shadow:0 0 34px #69dbdf80,0 18px 30px #0008, inset -9px -10px 17px #0a1d2b66}
+.ball-glow{background:radial-gradient(circle,#37d9d0 0,rgba(39,158,204,.25) 48%,transparent 74%);filter:blur(24px)}
+.trail{border-top-color:#59fff0}.trail.two{border-top-color:#438dff}
+.sport-card,.comp-card,.panel{transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease}
+.sport-card:hover,.comp-card:hover{box-shadow:0 12px 32px #0004,0 0 22px #38d4ce12}
+.search-results{backdrop-filter:blur(14px)}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 </style>
 
 </head>
@@ -534,32 +545,25 @@ async function openMatch(id){
 }
 
 function searchItems(q){
- const query=norm(q);
- if(!query)return [];
-
- const comps=competitions.filter(c=>
-  norm([c.name,c.short,c.country,c.aliases].join(" ")).includes(query)
- );
-
- const teams=Object.entries(eventStore).flatMap(([id,obj])=>{
-  const e=obj.event;
-  return [getTeam(e,"home"),getTeam(e,"away")]
-   .map(t=>({id,name:eventName(t),compId:obj.compId}))
-   .filter(t=>norm(t.name).includes(query));
- });
-
- return [
-  ...comps.map(c=>({
-   type:"comp",id:c.id,name:c.name,
-   sub:"Competición · "+c.country
-  })),
-  ...[...new Map(teams.map(t=>[t.name,t])).values()]
-   .slice(0,8)
-   .map(t=>({
-    type:"team",id:t.id,name:t.name,
-    sub:"Equipo · "+(competitions.find(c=>c.id===t.compId)?.name||"Deporte")
-   }))
- ].slice(0,12);
+ const query=norm(q);if(!query)return [];
+ const words=query.split(/\s+/).filter(Boolean);
+ const expansions={
+  "liga":["laliga","primera","segunda","hypermotion","premier","serie a","bundesliga","ligue 1","europa league","champions"],
+  "laliga":["laliga ea sports","laliga santander","primera division"],
+  "champions":["uefa champions league","ucl","copa europa"],
+  "nba":["baloncesto","basketball"],"baloncesto":["nba","acb","liga endesa"],
+  "federacion andaluza":["rfaf","futbol andaluz"],"rfaf":["federacion andaluza","futbol andaluz"],
+  "f1":["formula 1","formula uno","gran premio"],"atp":["tenis","atp tour"],
+  "nfl":["futbol americano"]
+ };
+ const terms=[query,...(expansions[query]||[])].map(norm);
+ const score=text=>{const hay=norm(text);if(terms.some(t=>hay.includes(t)))return 100;
+  const tokens=hay.split(/[^a-z0-9]+/).filter(Boolean);let n=0;
+  for(const w of words)if(tokens.some(t=>t.startsWith(w)||w.startsWith(t)))n++;
+  return words.length&&n===words.length?60+n:0};
+ const comps=competitions.map(c=>({c,score:score([c.name,c.short,c.country,c.aliases,sportName(c.sport)].join(" "))})).filter(x=>x.score).sort((a,b)=>b.score-a.score);
+ const teams=Object.entries(eventStore).flatMap(([id,obj])=>[getTeam(obj.event,"home"),getTeam(obj.event,"away")].map(t=>({id,name:eventName(t),compId:obj.compId,score:score(eventName(t))}))).filter(t=>t.score).sort((a,b)=>b.score-a.score);
+ return [...comps.map(({c,score})=>({type:"comp",id:c.id,name:c.name,sub:"Competición · "+c.country,score})),...teams.map(t=>({type:"team",id:t.id,name:t.name,sub:"Equipo · "+(competitions.find(c=>c.id===t.compId)?.name||"Deporte"),score:t.score}))].sort((a,b)=>b.score-a.score).slice(0,12).map(({score,...x})=>x);
 }
 
 function doSearch(q){
@@ -601,8 +605,12 @@ $("search").addEventListener("keydown",e=>{
 document.addEventListener("click",e=>{
  const nav=e.target.closest("[data-page]");
  if(nav){
-  showPage(nav.dataset.page);
-  if(nav.dataset.page==="results")loadResults();
+  if(nav.dataset.page==="home"&&window.parent!==window){
+   window.parent.postMessage({type:"dmf-sports-home"},"https://bruh-portal.github.io");
+  }else{
+   showPage(nav.dataset.page);
+   if(nav.dataset.page==="results")loadResults();
+  }
  }
 
  const goto=e.target.closest("[data-goto]");
