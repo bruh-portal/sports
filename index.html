@@ -114,6 +114,18 @@ a{color:#79b6ff}
 }
 @media(max-width:430px){.search-wrap{width:calc(100vw - 125px)}.hero-copy{max-width:100%}.ball-scene{opacity:.28;right:-45px}}
 </style>
+
+<style id="dmf-sports-refresh">
+:root{--bg:#07111b;--panel:#0e1c2a;--panel2:#122538;--line:#1c3549;--text:#f2f8fb;--muted:#93a9b7;--blue:#30cfca;--cyan:#39e0d3;--green:#68e0ab;--red:#ff7482}
+body{background:radial-gradient(ellipse at 64% -10%,#123749 0,transparent 37%),var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;letter-spacing:.005em}
+.sidebar{background:#091722;border-color:#193242}.logo{font-size:24px;letter-spacing:-1.2px}.logo span{color:var(--cyan)}.logo small{color:#92a9b7;letter-spacing:3px}
+.nav button{color:#a8bbc6;border-radius:9px}.nav button.active,.nav button:hover{background:linear-gradient(90deg,#103745,#122a3b);color:white}.nav button.active{box-shadow:inset 3px 0 var(--cyan)}
+.main{padding-top:26px}.breadcrumb{letter-spacing:.1em;font-size:11px;color:#96adbb}.search{background:#102232;border-color:#294555;border-radius:9px}.icon-btn,.secondary-btn{background:#102332;border-color:#294555;border-radius:9px}.icon-btn:hover,.secondary-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+h1{letter-spacing:-.04em}.subtitle{color:#9aafbc}.hero{min-height:265px;border-color:#245463;border-radius:16px;background:linear-gradient(112deg,#0c2837 0%,#0e3342 48%,#102637 100%);box-shadow:0 18px 60px #0002}.hero:before,.hero:after{border-color:#54dfd222}.eyebrow{color:#6be5df}.hero p{color:#c1d2d8}.ball-glow{background:#31d4cb33}.trail{border-top-color:#45e0d7;filter:drop-shadow(0 0 9px #27bfbf)}
+.section-head{margin-top:29px}.section-head h2{font-size:18px;letter-spacing:-.02em}.section-head button{color:#59ddd7}.sport-card,.comp-card,.panel{background:linear-gradient(145deg,#102232,#0d1b29);border-color:#223b4d;border-radius:13px;box-shadow:0 8px 24px #0002}.sport-card:hover,.comp-card:hover{border-color:#33bfc1;background:#123143;transform:translateY(-2px)}.sport-card .emoji{color:var(--cyan)}.comp-icon{background:#103643;color:#5ee1dc;border:1px solid #205465}.comp-card .star{color:#ffcc62}.match{border-color:#20394b}.match:hover{background:#ffffff07}.score{color:#f5fbfc}.live{color:#5ae4a4}.chip{background:#102130;border-color:#263e4e;border-radius:8px;color:#b8c9d2}.chip.active,.tab.active{background:#10424a;border-color:#32c9c8;color:#f5ffff}.tab{border-radius:8px}.panel{padding:18px}.table th{background:#102231;color:#a6bbc6;white-space:nowrap}.table td{color:#e5eff3}.table tr:hover td{background:#ffffff06}.source-stamp{padding:9px 12px;border-left:3px solid var(--cyan);background:#0d2630;border-radius:0 8px 8px 0}.empty{color:#a4b7c2}.footer{color:#718995}
+@media(max-width:760px){.main{padding:14px 12px 32px}.hero{min-height:225px}.panel{padding:12px}.section-head{margin-top:23px}}
+</style>
+
 </head>
 <body>
 <div class="layout">
@@ -219,7 +231,6 @@ const competitions=[
  {id:"premier",name:"Premier League",short:"Premier",sport:"football",path:"soccer",slug:"eng.1",marcaId:"premier",country:"Inglaterra",icon:"🏴",aliases:"premier inglesa"},
  {id:"champions",name:"UEFA Champions League",short:"Champions",sport:"football",path:"soccer",slug:"uefa.champions",marcaId:"champions",country:"Europa",icon:"⭐",aliases:"champions league ucl copa europa"},
  {id:"europa",name:"UEFA Europa League",short:"Europa League",sport:"football",path:"soccer",slug:"uefa.europa",marcaId:"europa",country:"Europa",icon:"🟠",aliases:"europa league"},
- {id:"conference",name:"UEFA Conference League",short:"Conference",sport:"football",path:"soccer",slug:"uefa.conference",marcaId:"conference",country:"Europa",icon:"🟣",aliases:"conference league"},
  {id:"conference",name:"UEFA Conference League",short:"Conference",sport:"football",path:"soccer",slug:"uefa.conference",marcaId:"conference",country:"Europa",icon:"🟣",aliases:"conference league"},
  {id:"seriea",name:"Serie A",short:"Serie A",sport:"football",path:"soccer",slug:"ita.1",marcaId:"seriea",country:"Italia",icon:"🇮🇹",aliases:"liga italiana"},
  {id:"bundesliga",name:"Bundesliga",short:"Bundesliga",sport:"football",path:"soccer",slug:"ger.1",marcaId:"bundesliga",country:"Alemania",icon:"🇩🇪",aliases:"liga alemana"},
