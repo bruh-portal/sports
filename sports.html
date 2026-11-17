@@ -611,7 +611,7 @@ $("search").addEventListener("keydown",e=>{
 document.addEventListener("click",e=>{
  const nav=e.target.closest("[data-page]");
  if(nav){
-  if(nav.dataset.page==="home"&&window.parent!==window){window.parent.postMessage({type:"dmf-sports-home"},"https://bruh-portal.github.io");return}
+  if(nav.dataset.page==="home"&&window.top!==window){window.top.postMessage({source:"dmf-sports",type:"dmf-sports-home"},"https://bruh-portal.github.io");return}
   showPage(nav.dataset.page);
   if(nav.dataset.page==="results")loadResults();
  }
