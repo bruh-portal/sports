@@ -236,6 +236,8 @@ html{scroll-behavior:smooth}body{background:radial-gradient(ellipse at 61% -14%,
 const competitions=[
  {id:"laliga",name:"LaLiga EA Sports",short:"LaLiga",sport:"football",path:"soccer",slug:"esp.1",marcaId:"laliga",country:"España",icon:"🇪🇸",aliases:"liga española primera division laliga santander"},
  {id:"segunda",name:"LaLiga Hypermotion",short:"Segunda",sport:"football",path:"soccer",slug:"esp.2",marcaId:"segunda",country:"España",icon:"🇪🇸",aliases:"segunda division"},
+ {id:"eng-championship",name:"EFL Championship",short:"Championship",sport:"football",path:"soccer",slug:"eng.2",country:"Inglaterra",icon:"🏴",aliases:"segunda inglesa championship"},
+ {id:"eng-league-one",name:"EFL League One",short:"League One",sport:"football",path:"soccer",slug:"eng.3",country:"Inglaterra",icon:"🏴",aliases:"tercera inglesa league one"},
  {id:"premier",name:"Premier League",short:"Premier",sport:"football",path:"soccer",slug:"eng.1",marcaId:"premier",country:"Inglaterra",icon:"🏴",aliases:"premier inglesa"},
  {id:"champions",name:"UEFA Champions League",short:"Champions",sport:"football",path:"soccer",slug:"uefa.champions",marcaId:"champions",country:"Europa",icon:"⭐",aliases:"champions league ucl copa europa"},
  {id:"europa",name:"UEFA Europa League",short:"Europa League",sport:"football",path:"soccer",slug:"uefa.europa",marcaId:"europa",country:"Europa",icon:"🟠",aliases:"europa league"},
@@ -249,6 +251,8 @@ const competitions=[
  {id:"wnba",name:"WNBA",short:"WNBA",sport:"basketball",path:"basketball",slug:"wnba",country:"Estados Unidos",icon:"🏀",aliases:"baloncesto femenino wnba"},
  {id:"ncaam",name:"NCAA · baloncesto masculino",short:"NCAA M",sport:"basketball",path:"basketball",slug:"mens-college-basketball",country:"Estados Unidos",icon:"🎓",aliases:"ncaa college basketball masculino"},
  {id:"ncaaw",name:"NCAA · baloncesto femenino",short:"NCAA F",sport:"basketball",path:"basketball",slug:"womens-college-basketball",country:"Estados Unidos",icon:"🎓",aliases:"ncaa college basketball femenino"},
+ {id:"euroleague",name:"EuroLeague",short:"EuroLeague",sport:"basketball",path:"basketball",slug:"euroleague",country:"Europa",icon:"🌍",aliases:"euroliga baloncesto europe"},
+ {id:"fiba",name:"FIBA World Cup",short:"FIBA",sport:"basketball",path:"basketball",slug:"fiba",country:"Mundial",icon:"🌍",aliases:"copa del mundo baloncesto fiba"},
  {id:"f1",name:"Fórmula 1",short:"F1",sport:"f1",path:"racing",slug:"f1",country:"Mundial",icon:"🏎️",aliases:"formula uno formula 1 gran premio"},
  {id:"nfl",name:"NFL",short:"NFL",sport:"american",path:"football",slug:"nfl",country:"Estados Unidos",icon:"🏈",aliases:"futbol americano"},
  {id:"atp",name:"ATP Tour",short:"ATP",sport:"tennis",path:"tennis",slug:"atp",country:"Mundial",icon:"🎾",aliases:"tenis atp"}
@@ -257,7 +261,7 @@ const sports=[
  {id:"football",name:"Fútbol",icon:"⚽",desc:"Ligas y torneos de fútbol"},
  {id:"basketball",name:"Baloncesto",icon:"🏀",desc:"NBA, WNBA, NCAA y ACB"},
  {id:"tennis",name:"Tenis",icon:"🎾",desc:"Circuito profesional"},
- {id:"f1",name:"Fórmula 1",icon:"🏎️",desc:"Datos disponibles: Fórmula 1"},
+ {id:"f1",name:"Motor",icon:"🏎️",desc:"Fórmula 1 · otras series aún sin datos confirmados"},
  {id:"american",name:"Fútbol americano",icon:"🏈",desc:"NFL"}
 ];
 const MARCA_URLS={laliga:"https://www.marca.com/futbol/primera-division/clasificacion.html",segunda:"https://www.marca.com/futbol/segunda-division/clasificacion.html",premier:"https://www.marca.com/futbol/premier-league/clasificacion.html",seriea:"https://www.marca.com/futbol/liga-italiana/clasificacion.html",bundesliga:"https://www.marca.com/futbol/bundesliga/clasificacion.html",ligue1:"https://www.marca.com/futbol/liga-francesa/clasificacion.html",champions:"https://www.marca.com/futbol/champions-league/calendario.html",europa:"https://www.marca.com/futbol/europa-league/calendario.html",conference:"https://www.marca.com/resultados/futbol.html"};competitions.forEach(c=>{if(c.marcaId)c.marcaUrl=MARCA_URLS[c.marcaId]||"https://www.marca.com/resultados/futbol.html"});
@@ -298,7 +302,12 @@ function renderBasics(){
 }
 function renderCompetitions(){
  const list=competitions.filter(c=>compSport==="all"||c.sport===compSport);
- $("competitionGrid").innerHTML=list.map(compCard).join("");
+ if(compSport==="football"){
+  const groupKey=c=>["UEFA","Europa"].includes(c.country)?"UEFA · Europa":c.country;
+  const order=["España","Inglaterra","Italia","Alemania","Francia","UEFA · Europa","Andalucía"];
+  const groups=[...new Set(list.map(groupKey))].sort((a,b)=>{const x=order.indexOf(a),y=order.indexOf(b);return (x<0?99:x)-(y<0?99:y)});
+  $("competitionGrid").innerHTML=groups.map(g=>`<section style="grid-column:1/-1"><div class="section-head"><h2>${g}</h2></div><div class="competition-grid">${list.filter(c=>groupKey(c)===g).map(compCard).join("")}</div></section>`).join("");
+ }else $("competitionGrid").innerHTML=list.map(compCard).join("");
 }
 function renderFavorites(){
  const list=competitions.filter(c=>favorites.includes(c.id));
@@ -384,7 +393,7 @@ async function loadEvents(c,target){
  if(!c?.slug||!c.path){
   $(target).innerHTML=`<div class="empty">
    Esta competición utiliza una fuente externa.<br>
-   <a href="https://rfaf.es/" target="_blank" rel="noopener">Consultar la web oficial de la RFAF ↗</a>
+   <a href="https://www.rfaf.es/pnfg/NPcd/NFG_CmpJornada?cod_primaria=1000120" target="_blank" rel="noopener">Consultar la web oficial de la RFAF ↗</a>
   </div>`;
   return;
  }
@@ -615,8 +624,8 @@ $("search").addEventListener("keydown",e=>{
 document.addEventListener("click",e=>{
  const nav=e.target.closest("[data-page]");
  if(nav){
-  if(nav.dataset.page==="home"&&window.parent!==window){window.parent.postMessage({source:"dmf-sports",type:"dmf-sports-home"},"https://bruh-portal.github.io");return}
   showPage(nav.dataset.page);
+  if(nav.dataset.page==="home")loadHome();
   if(nav.dataset.page==="results")loadResults();
  }
 
