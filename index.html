@@ -36,6 +36,7 @@ button{cursor:pointer}
 .search-results button{display:block;width:100%;text-align:left;background:none;border:0;color:white;padding:12px 14px}
 .search-results button:hover{background:#1b3151}
 .search-results small{display:block;color:var(--muted);margin-top:4px}
+.source-stamp{color:var(--muted);font-size:11px;margin:8px 0 12px}.source-stamp strong{color:#7be3c1}.brand-source{font-size:10px;color:var(--muted);margin:10px 0}.table td:first-child{color:#a9c8ff;font-weight:bold}
 .icon-btn,.secondary-btn{background:var(--panel);border:1px solid var(--line);color:white;padding:11px 14px;border-radius:10px}
 .icon-btn:hover,.secondary-btn:hover{border-color:var(--blue)}
 .page{display:none}.page.active{display:block}
@@ -143,7 +144,7 @@ a{color:#79b6ff}
     <input class="search" id="search" placeholder="Buscar liga, equipo..." autocomplete="off">
     <div class="search-results" id="searchResults"></div>
    </div>
-   <button class="icon-btn" id="refresh" title="Actualizar">↻</button>
+   <button class="icon-btn" id="fullscreen" title="Pantalla completa" aria-label="Pantalla completa">⛶</button><button class="icon-btn" id="refresh" title="Actualizar">↻</button>
   </div>
  </header>
 
@@ -213,14 +214,16 @@ a{color:#79b6ff}
 <script>
 "use strict";
 const competitions=[
- {id:"laliga",name:"LaLiga EA Sports",short:"LaLiga",sport:"football",path:"soccer",slug:"esp.1",country:"España",icon:"🇪🇸",aliases:"liga española primera division laliga santander"},
- {id:"segunda",name:"LaLiga Hypermotion",short:"Segunda",sport:"football",path:"soccer",slug:"esp.2",country:"España",icon:"🇪🇸",aliases:"segunda division"},
- {id:"premier",name:"Premier League",short:"Premier",sport:"football",path:"soccer",slug:"eng.1",country:"Inglaterra",icon:"🏴",aliases:"premier inglesa"},
- {id:"champions",name:"UEFA Champions League",short:"Champions",sport:"football",path:"soccer",slug:"uefa.champions",country:"Europa",icon:"⭐",aliases:"champions league ucl copa europa"},
- {id:"europa",name:"UEFA Europa League",short:"Europa League",sport:"football",path:"soccer",slug:"uefa.europa",country:"Europa",icon:"🟠",aliases:"europa league"},
- {id:"seriea",name:"Serie A",short:"Serie A",sport:"football",path:"soccer",slug:"ita.1",country:"Italia",icon:"🇮🇹",aliases:"liga italiana"},
- {id:"bundesliga",name:"Bundesliga",short:"Bundesliga",sport:"football",path:"soccer",slug:"ger.1",country:"Alemania",icon:"🇩🇪",aliases:"liga alemana"},
- {id:"ligue1",name:"Ligue 1",short:"Ligue 1",sport:"football",path:"soccer",slug:"fra.1",country:"Francia",icon:"🇫🇷",aliases:"liga francesa"},
+ {id:"laliga",name:"LaLiga EA Sports",short:"LaLiga",sport:"football",path:"soccer",slug:"esp.1",marcaId:"laliga",country:"España",icon:"🇪🇸",aliases:"liga española primera division laliga santander"},
+ {id:"segunda",name:"LaLiga Hypermotion",short:"Segunda",sport:"football",path:"soccer",slug:"esp.2",marcaId:"segunda",country:"España",icon:"🇪🇸",aliases:"segunda division"},
+ {id:"premier",name:"Premier League",short:"Premier",sport:"football",path:"soccer",slug:"eng.1",marcaId:"premier",country:"Inglaterra",icon:"🏴",aliases:"premier inglesa"},
+ {id:"champions",name:"UEFA Champions League",short:"Champions",sport:"football",path:"soccer",slug:"uefa.champions",marcaId:"champions",country:"Europa",icon:"⭐",aliases:"champions league ucl copa europa"},
+ {id:"europa",name:"UEFA Europa League",short:"Europa League",sport:"football",path:"soccer",slug:"uefa.europa",marcaId:"europa",country:"Europa",icon:"🟠",aliases:"europa league"},
+ {id:"conference",name:"UEFA Conference League",short:"Conference",sport:"football",path:"soccer",slug:"uefa.conference",marcaId:"conference",country:"Europa",icon:"🟣",aliases:"conference league"},
+ {id:"conference",name:"UEFA Conference League",short:"Conference",sport:"football",path:"soccer",slug:"uefa.conference",marcaId:"conference",country:"Europa",icon:"🟣",aliases:"conference league"},
+ {id:"seriea",name:"Serie A",short:"Serie A",sport:"football",path:"soccer",slug:"ita.1",marcaId:"seriea",country:"Italia",icon:"🇮🇹",aliases:"liga italiana"},
+ {id:"bundesliga",name:"Bundesliga",short:"Bundesliga",sport:"football",path:"soccer",slug:"ger.1",marcaId:"bundesliga",country:"Alemania",icon:"🇩🇪",aliases:"liga alemana"},
+ {id:"ligue1",name:"Ligue 1",short:"Ligue 1",sport:"football",path:"soccer",slug:"fra.1",marcaId:"ligue1",country:"Francia",icon:"🇫🇷",aliases:"liga francesa"},
  {id:"rfaf",name:"RFAF · Fútbol Andaluz",short:"RFAF",sport:"football",path:"",slug:"",country:"Andalucía",icon:"🟢",aliases:"rfaf federacion andaluza federación andaluza futbol futbol andaluz andalucia cadiz jerez"},
  {id:"nba",name:"NBA",short:"NBA",sport:"basketball",path:"basketball",slug:"nba",country:"Estados Unidos",icon:"🏀",aliases:"baloncesto nba"},
  {id:"acb",name:"Liga ACB",short:"ACB",sport:"basketball",path:"basketball",slug:"acb",country:"España",icon:"🇪🇸",aliases:"liga endesa acb"},
@@ -235,8 +238,17 @@ const sports=[
  {id:"f1",name:"Fórmula 1",icon:"🏎️",desc:"Mundial de automovilismo"},
  {id:"american",name:"Fútbol americano",icon:"🏈",desc:"NFL"}
 ];
+const MARCA_URLS={laliga:"https://www.marca.com/futbol/primera-division/clasificacion.html",segunda:"https://www.marca.com/futbol/segunda-division/clasificacion.html",premier:"https://www.marca.com/futbol/premier-league/clasificacion.html",seriea:"https://www.marca.com/futbol/liga-italiana/clasificacion.html",bundesliga:"https://www.marca.com/futbol/bundesliga/clasificacion.html",ligue1:"https://www.marca.com/futbol/liga-francesa/clasificacion.html",champions:"https://www.marca.com/futbol/champions-league/calendario.html",europa:"https://www.marca.com/futbol/europa-league/calendario.html",conference:"https://www.marca.com/resultados/futbol.html"};competitions.forEach(c=>{if(c.marcaId)c.marcaUrl=MARCA_URLS[c.marcaId]||"https://www.marca.com/resultados/futbol.html"});
 let favorites=JSON.parse(localStorage.getItem("dmfSportsFavorites")||"[]");
 let eventStore={};
+let marcaData=null;
+async function loadMarcaData(force=false){if(marcaData&&!force)return marcaData;try{const r=await fetch("./marca-data.json?ts="+(force?Date.now():"latest"),{cache:"no-store"});if(!r.ok)throw Error("HTTP "+r.status);const d=await r.json();if(!d||!d.source||!d.fetchedAt)throw Error("Datos MARCA inválidos");marcaData=d;return d}catch(e){marcaData=null;throw e}}
+function marcaStamp(){return `<div class="source-stamp">Fuente: <strong>MARCA</strong> · datos descargados ${marcaData?.fetchedAt?new Date(marcaData.fetchedAt).toLocaleString("es-ES",{dateStyle:"medium",timeStyle:"short",timeZone:"Europe/Madrid"}):"sin verificar"} (hora de Madrid) · actualización automática cada 6 h</div>`}
+function safeText(x){return String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function marcaMatches(c){return (marcaData?.events||[]).filter(e=>e.league===c.marcaId)}
+function renderMarcaEvents(events,target){if(!events.length){$(target).innerHTML=marcaStamp()+`<div class="empty">MARCA no publica partidos de esta competición en el periodo disponible. No se muestran datos de otra fuente bajo la etiqueta MARCA.</div>`;return}const now=Date.now();events=events.slice().sort((a,b)=>Math.abs(new Date(a.date)-now)-Math.abs(new Date(b.date)-now)).slice(0,30).sort((a,b)=>new Date(a.date)-new Date(b.date));$(target).innerHTML=marcaStamp()+events.map(e=>{const d=new Date(e.date),status=e.status||"";const pending=/comenzar|previo|not started/i.test(status);return `<article class="match" style="cursor:default"><div class="teams"><div class="teamline">${safeText(e.home)}</div><div class="teamline">${safeText(e.away)}</div><div class="match-meta">${d.toLocaleString("es-ES",{weekday:"short",day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit",timeZone:"Europe/Madrid"})} · ${safeText(e.competition)} · ${safeText(status)}</div></div><div class="score">${pending?d.toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit",timeZone:"Europe/Madrid"}):`${safeText(e.homeScore)} – ${safeText(e.awayScore)}`}</div></article>`}).join("")}
+function renderMarcaTable(c){const x=marcaData?.rankings?.[c.marcaId];if(!x?.teams?.length){$("detailContent").innerHTML=marcaStamp()+`<div class="empty">MARCA no ofrece aquí una clasificación utilizable ahora. No se inventan equipos ni puntos.</div>`;return}$("detailContent").innerHTML=marcaStamp()+`<div class="source-stamp">Jornada ${safeText(x.matchDay||"—")} · ${x.teams.length} equipos · <a href="${safeText(c.marcaUrl||"https://www.marca.com/resultados/futbol.html")}" target="_self">Ver en MARCA ↗</a></div><div style="overflow-x:auto"><table class="table"><thead><tr><th>#</th><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th><th>PTS</th></tr></thead><tbody>${x.teams.map(t=>`<tr><td>${safeText(t.position)}</td><td>${safeText(t.name)}</td><td>${safeText(t.played)}</td><td>${safeText(t.won)}</td><td>${safeText(t.drawn)}</td><td>${safeText(t.lost)}</td><td>${safeText(t.goalsFor)}</td><td>${safeText(t.goalsAgainst)}</td><td>${safeText(t.difference)}</td><td><b>${safeText(t.points)}</b></td></tr>`).join("")}</tbody></table></div><div class="brand-source">Fuente de datos: MARCA · clasificación original: <a href="${safeText(c.marcaUrl||"https://www.marca.com/resultados/futbol.html")}" target="_self">consultar la fuente ↗</a></div>`}
+
 let currentComp=null,currentSport=null,currentTab="matches",returnPage="results";
 let resultSport="football",compSport="all";
 const $=id=>document.getElementById(id);
@@ -344,6 +356,7 @@ function renderEvents(events,target,compId){
 }
 
 async function loadEvents(c,target){
+ if(c?.marcaId){$(target).innerHTML=`<div class="empty">Cargando datos de MARCA…</div>`;try{await loadMarcaData();renderMarcaEvents(marcaMatches(c),target)}catch(e){$(target).innerHTML=`<div class="empty">No se pudieron actualizar los datos MARCA.<br><button class="secondary-btn" onclick="retryMarca('${c.id}','${target}')">Reintentar</button></div>`}return}
  if(!c?.slug||!c.path){
   $(target).innerHTML=`<div class="empty">
    Esta competición utiliza una fuente externa.<br>
@@ -364,6 +377,7 @@ async function loadEvents(c,target){
  }
 }
 
+window.retryMarca=async(id,target)=>{try{await loadMarcaData(true);const c=competitions.find(x=>x.id===id);if(c)renderMarcaEvents(marcaMatches(c),target)}catch(e){$(target).innerHTML=`<div class="empty">MARCA no está disponible temporalmente. Reintenta más tarde.</div>`}};
 window.retryEvents=(id,target)=>{
  const c=competitions.find(x=>x.id===id);
  if(c)loadEvents(c,target);
@@ -389,42 +403,7 @@ async function loadMarcaNews(){
  }
 }
 
-async function loadHome(){
- const ids=["laliga","premier","champions","nba"];
- const jobs=ids.map(id=>{
-  const c=competitions.find(x=>x.id===id);
-  return getJSON(apiUrl(c))
-   .then(d=>({c,events:d.events||[]}))
-   .catch(()=>({c,events:[]}));
- });
- const results=await Promise.all(jobs);
- let all=[];
- results.forEach(r=>{
-  r.events.forEach(e=>eventStore[e.id]={event:e,compId:r.c.id});
-  all.push(...r.events);
- });
- all.sort((a,b)=>new Date(b.date)-new Date(a.date));
-
- if(!all.length){
-  $("homeMatches").innerHTML=`<div class="empty">
-   No se han podido cargar resultados ahora mismo.<br>
-   Prueba a actualizar más tarde.
-  </div>`;
-  return;
- }
-
- $("homeMatches").innerHTML=all.slice(0,9).map(e=>{
-  const h=getTeam(e,"home"),a=getTeam(e,"away"),st=e.status?.type;
-  return `<div class="match" data-event="${e.id}">
-   <div class="teams">
-    <div class="teamline">${eventName(h)}</div>
-    <div class="teamline">${eventName(a)}</div>
-    <div class="match-meta">${eventStore[e.id].compId.toUpperCase()} · ${eventStatus(e)}</div>
-   </div>
-   <div class="score">${st?.state==="pre"?formatDate(e):eventScore(h)+" – "+eventScore(a)}</div>
-  </div>`;
- }).join("");
-}
+async function loadHome(){try{await loadMarcaData();const events=(marcaData.events||[]).filter(e=>new Date(e.date).getTime()>Date.now()-48*3600000).slice(0,9);if(events.length){$("homeMatches").innerHTML=marcaStamp()+events.map(e=>{const d=new Date(e.date),pending=/comenzar|previo|not started/i.test(e.status||"");return `<article class="match" style="cursor:default"><div class="teams"><div class="teamline">${safeText(e.home)}</div><div class="teamline">${safeText(e.away)}</div><div class="match-meta">${safeText(e.competition)} · ${d.toLocaleString("es-ES",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit",timeZone:"Europe/Madrid"})} · ${safeText(e.status)}</div></div><div class="score">${pending?"PRÓXIMO":safeText(e.homeScore)+" – "+safeText(e.awayScore)}</div></article>`}).join("")}else $("homeMatches").innerHTML=marcaStamp()+`<div class="empty">No hay partidos recientes/próximos de las competiciones MARCA cubiertas en este momento. Visita Resultados para explorar.</div>`}catch(e){$("homeMatches").innerHTML=`<div class="empty">No se pudo cargar el paquete MARCA; prueba ↻ para reintentar. Los resultados no se inventan.</div>`}}
 
 async function loadResults(){
  const list=competitions.filter(c=>c.sport===resultSport&&c.slug);
@@ -442,12 +421,7 @@ async function loadDetail(){
  );
 
  if(c.id==="rfaf"){
-  $("detailContent").innerHTML=`
-   <h3>Federación Andaluza de Fútbol</h3>
-   <p class="subtitle">Consulta los resultados y clasificaciones oficiales de las competiciones andaluzas.</p>
-   <a href="https://stars.rfaf.es/" target="_blank" rel="noopener">Abrir plataforma oficial RFAF ↗</a>
-   <p class="notice">El contenido oficial puede no permitir mostrarse dentro de otras páginas.</p>`;
-  return;
+  $("detailContent").innerHTML=`<h3>Universo RFAF · partidos públicos</h3><p class="subtitle">Resultados públicos de la Real Federación Andaluza de Fútbol, integrados aquí sin iniciar sesión.</p><div class="source-stamp">Si esta vista no carga, puedes abrir Universo RFAF en el mismo marco usando sus controles internos.</div><iframe title="Universo RFAF: partidos y resultados" src="https://www.universorfaf.es/" loading="lazy" style="width:100%;height:78vh;min-height:550px;border:0;border-radius:12px;background:#fff" allow="fullscreen" allowfullscreen></iframe><p class="notice">Fuente oficial: Universo RFAF. No cierres DMF; usa el botón ← Volver para regresar.</p>`;return;
  }
 
  if(currentTab==="matches"){
@@ -456,6 +430,7 @@ async function loadDetail(){
  }
 
  if(currentTab==="table"){
+  if(c.marcaId){$("detailContent").innerHTML=`<div class="empty">Cargando clasificación MARCA…</div>`;try{await loadMarcaData();renderMarcaTable(c)}catch(e){$("detailContent").innerHTML=`<div class="empty">No se pudo actualizar la clasificación MARCA. <button class="secondary-btn" onclick="retryMarca('${c.id}','detailContent')">Reintentar</button></div>`}return}
   $("detailContent").innerHTML=`<div class="empty">Cargando clasificación...</div>`;
   try{
    const data=await getJSON(apiUrl(c,"standings"));
@@ -679,10 +654,12 @@ document.addEventListener("click",e=>{
  }
 });
 
+$("fullscreen").onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){alert("Este navegador no permite activar pantalla completa desde DMF SPORTS.")}};document.addEventListener("fullscreenchange",()=>{$("fullscreen").title=document.fullscreenElement?"Salir de pantalla completa":"Pantalla completa";$(("fullscreen")).setAttribute("aria-label",$("fullscreen").title)});
 $("menuBtn").onclick=()=>
  $("sidebar").classList.toggle("open");
 
-$("refresh").onclick=()=>{
+$("refresh").onclick=async()=>{
+ try{await loadMarcaData(true)}catch{}
  const active=document.querySelector(".page.active")?.id;
  loadMarcaNews();
  if(active==="page-home")loadHome();
