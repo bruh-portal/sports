@@ -116,25 +116,20 @@ a{color:#79b6ff}
 </style>
 
 <style id="dmf-sports-refresh">
-:root{--bg:#07111b;--panel:#0e1c2a;--panel2:#122538;--line:#1c3549;--text:#f2f8fb;--muted:#93a9b7;--blue:#30cfca;--cyan:#39e0d3;--green:#68e0ab;--red:#ff7482}
-body{background:radial-gradient(ellipse at 64% -10%,#123749 0,transparent 37%),var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;letter-spacing:.005em}
-.sidebar{background:#091722;border-color:#193242}.logo{font-size:24px;letter-spacing:-1.2px}.logo span{color:var(--cyan)}.logo small{color:#92a9b7;letter-spacing:3px}
-.nav button{color:#a8bbc6;border-radius:9px}.nav button.active,.nav button:hover{background:linear-gradient(90deg,#103745,#122a3b);color:white}.nav button.active{box-shadow:inset 3px 0 var(--cyan)}
-.main{padding-top:26px}.breadcrumb{letter-spacing:.1em;font-size:11px;color:#96adbb}.search{background:#102232;border-color:#294555;border-radius:9px}.icon-btn,.secondary-btn{background:#102332;border-color:#294555;border-radius:9px}.icon-btn:hover,.secondary-btn:hover{border-color:var(--cyan);color:var(--cyan)}
-h1{letter-spacing:-.04em}.subtitle{color:#9aafbc}.hero{min-height:265px;border-color:#245463;border-radius:16px;background:linear-gradient(112deg,#0c2837 0%,#0e3342 48%,#102637 100%);box-shadow:0 18px 60px #0002}.hero:before,.hero:after{border-color:#54dfd222}.eyebrow{color:#6be5df}.hero p{color:#c1d2d8}.ball-glow{background:#31d4cb33}.trail{border-top-color:#45e0d7;filter:drop-shadow(0 0 9px #27bfbf)}
-.section-head{margin-top:29px}.section-head h2{font-size:18px;letter-spacing:-.02em}.section-head button{color:#59ddd7}.sport-card,.comp-card,.panel{background:linear-gradient(145deg,#102232,#0d1b29);border-color:#223b4d;border-radius:13px;box-shadow:0 8px 24px #0002}.sport-card:hover,.comp-card:hover{border-color:#33bfc1;background:#123143;transform:translateY(-2px)}.sport-card .emoji{color:var(--cyan)}.comp-icon{background:#103643;color:#5ee1dc;border:1px solid #205465}.comp-card .star{color:#ffcc62}.match{border-color:#20394b}.match:hover{background:#ffffff07}.score{color:#f5fbfc}.live{color:#5ae4a4}.chip{background:#102130;border-color:#263e4e;border-radius:8px;color:#b8c9d2}.chip.active,.tab.active{background:#10424a;border-color:#32c9c8;color:#f5ffff}.tab{border-radius:8px}.panel{padding:18px}.table th{background:#102231;color:#a6bbc6;white-space:nowrap}.table td{color:#e5eff3}.table tr:hover td{background:#ffffff06}.source-stamp{padding:9px 12px;border-left:3px solid var(--cyan);background:#0d2630;border-radius:0 8px 8px 0}.empty{color:#a4b7c2}.footer{color:#718995}
-@media(max-width:760px){.main{padding:14px 12px 32px}.hero{min-height:225px}.panel{padding:12px}.section-head{margin-top:23px}}
-
-/* Broadcast-inspired stadium light: abstract geometry only, no player imagery. */
-.hero{isolation:isolate;background:radial-gradient(ellipse at 79% 48%,rgba(28,112,185,.26),transparent 30%),linear-gradient(112deg,#0c2837 0%,#0e3342 48%,#102637 100%)}
-.hero:before{box-shadow:0 0 42px rgba(57,224,211,.08),inset 0 0 45px rgba(60,184,216,.04)}
-.ball{background:radial-gradient(circle at 32% 24%,#fff 0,#e7f4fa 38%,#91b7cc 70%,#28465c 100%);box-shadow:0 0 34px #69dbdf80,0 18px 30px #0008, inset -9px -10px 17px #0a1d2b66}
-.ball-glow{background:radial-gradient(circle,#37d9d0 0,rgba(39,158,204,.25) 48%,transparent 74%);filter:blur(24px)}
-.trail{border-top-color:#59fff0}.trail.two{border-top-color:#438dff}
-.sport-card,.comp-card,.panel{transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease}
-.sport-card:hover,.comp-card:hover{box-shadow:0 12px 32px #0004,0 0 22px #38d4ce12}
-.search-results{backdrop-filter:blur(14px)}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap');
+:root{--bg:#050c14;--panel:#0b1722;--panel2:#0d202c;--line:#1a3543;--text:#f2f8f8;--muted:#91a7b1;--blue:#328cff;--cyan:#4de0d2;--green:#68e0ab;--red:#ff7482;--glow:rgba(45,198,201,.17)}
+html{scroll-behavior:smooth}body{background:radial-gradient(ellipse at 61% -14%,#10384a 0,transparent 36%),radial-gradient(ellipse at 100% 65%,#082330 0,transparent 30%),var(--bg);font-family:Manrope,Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;letter-spacing:.002em;color:var(--text)}
+.layout{max-width:1900px;margin:auto}.sidebar{width:250px;background:linear-gradient(180deg,#08141f,#07111a 72%);border-right:1px solid #18313e;padding:28px 16px;box-shadow:12px 0 45px #0002}.logo{font-size:25px;letter-spacing:-1.4px;padding:8px 11px 30px;font-weight:900}.logo span{color:var(--cyan)}.logo small{color:#91aab3;letter-spacing:.27em;font-size:9px}.nav-title{font-size:9px;letter-spacing:.2em;color:#68818b;padding:19px 12px 8px}.nav button{border:1px solid transparent;color:#9ab0b9;padding:12px 13px;margin:3px 0;border-radius:10px;transition:background .2s,border-color .2s,color .2s}.nav button:hover{background:#102431;color:white;border-color:#1e3d49}.nav button.active{background:linear-gradient(100deg,#103943,#102633);color:white;border-color:#1c5960;box-shadow:inset 3px 0 var(--cyan),0 6px 20px #0002}.nav-icon{filter:saturate(.82)}
+.main{padding:26px clamp(18px,3vw,48px) 60px;max-width:1620px;margin:auto;width:calc(100% - 250px)}.topbar{position:sticky;top:0;z-index:15;margin:-2px 0 25px;padding:3px 0 14px;background:linear-gradient(#07121beF,#07121bD9 72%,transparent);backdrop-filter:blur(15px);border-bottom:1px solid #1b3541}.breadcrumb{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#8ea5ae}.top-actions{gap:10px}.search{height:46px;background:#0d1d28;border:1px solid #23404d;border-radius:12px;color:#f4ffff;padding:0 16px;box-shadow:inset 0 1px #fff06;transition:border-color .2s,box-shadow .2s}.search:focus{border-color:#46d3cc;box-shadow:0 0 0 3px #3bc8c21b}.search-results{background:#0c1a24;border-color:#284651;border-radius:13px}.search-results button{padding:13px 15px}.search-results button:hover{background:#12313a}.icon-btn,.secondary-btn{height:46px;background:#0d1d28;border:1px solid #23404d;color:#d8e9e9;border-radius:12px;transition:.2s}.icon-btn:hover,.secondary-btn:hover{border-color:#49d3cc;color:#63e6dc;background:#10313a}
+.page{animation:page-in .32s ease both}@keyframes page-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}h1,h2,h3,.logo{font-family:Manrope,system-ui,sans-serif}h1{font-size:30px;font-weight:800;letter-spacing:-.055em}.subtitle{color:#9bb0b9;line-height:1.65}.hero{isolation:isolate;min-height:330px;margin:0 0 38px;padding:clamp(27px,4.6vw,60px);border:1px solid #28505b;border-radius:22px;background:linear-gradient(112deg,#0a1e2a 0%,#0b2834 45%,#09202c 100%);box-shadow:0 30px 90px #0005,inset 0 1px #ffffff13;overflow:hidden}
+.hero:before{width:600px;height:600px;right:0;top:-130px;border-color:#62e8dd10;box-shadow:0 0 0 36px #4ed4cb08,0 0 0 74px #4ed4cb06,0 0 0 112px #4ed4cb04;animation:orbit 32s linear infinite}.hero:after{content:"";position:absolute;z-index:-1;width:47%;height:150%;right:8%;top:-25%;border:1px solid #54dcd015;border-radius:48%;transform:rotate(23deg);background:linear-gradient(90deg,transparent,#20b4b120,transparent);mask-image:linear-gradient(90deg,transparent,#000 40%,#000 65%,transparent);pointer-events:none;animation:energy 5s ease-in-out infinite alternate}@keyframes orbit{to{transform:rotate(360deg)}}@keyframes energy{to{opacity:.34;transform:rotate(28deg) translateX(-18px)}}
+.hero-copy{max-width:600px}.eyebrow{font-size:9px;letter-spacing:.24em;color:#62e5d8;margin-bottom:17px}.hero h1{font-family:"Barlow Condensed",Manrope,sans-serif;font-size:clamp(48px,7.4vw,88px);line-height:.88;letter-spacing:-.035em;text-transform:uppercase;max-width:650px;text-shadow:0 9px 35px #0004}.hero p{font-size:14px;line-height:1.8;color:#bdcdd2;max-width:440px;margin-top:19px}.hero h1:after{content:"";display:block;width:86px;height:3px;margin-top:18px;background:linear-gradient(90deg,#55ead9,#267dff);border-radius:3px;box-shadow:0 0 18px #44daca88}.ball-scene{right:10%;width:245px;height:245px;filter:drop-shadow(0 15px 40px #0006)}.ball-glow{width:210px;height:210px;background:#2bd5ca25;filter:blur(32px);animation:pulse 3s ease-in-out infinite alternate}@keyframes pulse{to{transform:scale(1.24);opacity:.44}}.ball{width:137px;height:137px;background:radial-gradient(circle at 33% 25%,#ffffff 0,#e4f3ef 30%,#9baeb1 63%,#263946 100%);box-shadow:inset -10px -12px 26px #03111a88,0 0 42px #37d9c877,0 0 90px #209eae28;animation:float 4s ease-in-out infinite,spin 24s linear infinite}.ball:before{background:repeating-conic-gradient(from 10deg,#11232c 0deg 9deg,transparent 9deg 42deg);opacity:.94}.ball:after{inset:19px;border-color:#294249}.trail{width:270px;height:85px;border-top-color:#52e4dc;border-width:2px;filter:drop-shadow(0 0 12px #27d6d3);animation:trail 3.3s ease-in-out infinite}.trail.two{width:300px;height:120px;border-top-color:#3588ff;animation-delay:.8s}@keyframes float{50%{transform:translateY(-14px)}}@keyframes spin{to{rotate:360deg}}@keyframes trail{50%{opacity:.32;transform:rotate(3deg) scale(1.1)}}
+.section-head{margin:36px 0 15px;min-height:28px}.section-head h2{font-size:16px;letter-spacing:-.03em;font-weight:800}.section-head h2:before{content:"";display:inline-block;width:3px;height:15px;background:var(--cyan);vertical-align:-2px;margin-right:10px;border-radius:3px;box-shadow:0 0 12px #42d9c988}.section-head button{color:#64ded5;font-weight:700}.cards{gap:13px;grid-template-columns:repeat(auto-fit,minmax(165px,1fr))}.sport-card,.comp-card,.panel{position:relative;background:linear-gradient(145deg,#0e202b,#0a1721);border:1px solid #1c3945;border-radius:15px;box-shadow:0 10px 34px #0002,inset 0 1px #ffffff05}.sport-card{padding:20px 18px;min-height:132px;overflow:hidden;transition:transform .24s,border-color .24s,box-shadow .24s}.sport-card:after{content:"";position:absolute;width:100px;height:100px;right:-34px;bottom:-48px;border:1px solid #48ded414;border-radius:50%;box-shadow:0 0 0 16px #48ded408,0 0 0 32px #48ded405}.sport-card:hover,.comp-card:hover{transform:translateY(-4px);border-color:#3ab7b5;background:linear-gradient(145deg,#112c37,#0d202a);box-shadow:0 16px 36px #0005,0 0 22px #34c6bd0b}.sport-card .emoji{font-size:26px;margin-bottom:15px;filter:drop-shadow(0 4px 8px #0005)}.sport-card strong,.comp-card strong{font-size:13px;font-weight:800;letter-spacing:-.02em}.sport-card small,.comp-card small{color:#91aab3;line-height:1.5}.competition-grid{gap:13px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}.comp-card{padding:16px;min-height:77px;transition:.22s}.comp-icon{width:44px;height:44px;border-radius:13px;background:linear-gradient(140deg,#143945,#10242d);border:1px solid #22535b;color:#70e2d6;box-shadow:inset 0 1px #ffffff08}.comp-card .star{color:#f3c875}.panel{padding:20px;margin-top:15px}.match{padding:15px 7px;border-bottom:1px solid #1a333d;border-radius:8px;transition:background .18s}.match:hover{background:#ffffff07}.teams .teamline{font-size:12px;font-weight:650}.score{font-variant-numeric:tabular-nums;font-size:17px}.match-meta{color:#8099a2}.filters{gap:8px}.chip,.tab{background:#0b1a23;border:1px solid #203a44;color:#a8bec4;border-radius:9px;padding:9px 13px;transition:.18s}.chip:hover,.tab:hover{border-color:#398b8b;color:white}.chip.active,.tab.active{background:linear-gradient(110deg,#11444a,#10323d);border-color:#328c8c;color:#eaffff;box-shadow:0 0 18px #32c9c814}.source-stamp{border-left:3px solid var(--cyan);padding:10px 13px;background:#0b222b;border-radius:0 9px 9px 0;color:#a9bbc0}.table{font-variant-numeric:tabular-nums}.table th{background:#0b1d27;color:#9db3ba}.table td{color:#dfebeb}.empty{color:#a0b3b9}.notice{color:#8299a2}.footer{color:#708991}.brand-source{color:#8ba2aa}.detail-top{margin-top:8px}.back{border:1px solid #23404a;background:#0d1d27;color:#d9e9e9;border-radius:10px;padding:11px 14px}
+.marca-item{display:flex!important;align-items:center;gap:16px;padding:15px 8px!important;border-bottom:1px solid #1c343e}.marca-item:hover{background:#ffffff08}.marca-item .teamline{line-height:1.55}.news-label{display:inline-flex;align-items:center;gap:7px;font-size:9px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#64ded5;margin-bottom:12px}.news-label:before{content:"";width:7px;height:7px;border-radius:50%;background:#53e0a5;box-shadow:0 0 11px #53e0a588}
+@media(max-width:900px){.sidebar{width:220px}.main{width:calc(100% - 220px);padding-left:22px;padding-right:22px}.hero{min-height:300px}.ball-scene{right:4%;transform:translateY(-50%) scale(.82)}}
+@media(max-width:760px){.sidebar{width:250px;background:#08141f}.main{width:100%;padding:14px 13px 34px}.topbar{margin-bottom:18px;align-items:flex-start}.search-wrap{width:min(250px,52vw)}.hero{min-height:274px;padding:26px 21px;margin-bottom:30px;border-radius:17px}.hero h1{font-size:clamp(46px,12vw,67px)}.hero p{font-size:12px;max-width:72%}.hero-copy{max-width:77%}.ball-scene{right:-23px;opacity:.62;transform:translateY(-50%) scale(.69)}.section-head{margin-top:28px}.sport-card{min-height:120px;padding:17px}.cards{grid-template-columns:repeat(auto-fit,minmax(135px,1fr))}.competition-grid{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}.panel{padding:14px}.section-head h2{font-size:15px}}
+@media(max-width:430px){.top-actions{gap:6px}.search-wrap{width:calc(100vw - 145px)}.search{padding:0 11px;height:42px;font-size:12px}.icon-btn{height:42px;padding:8px 10px}.main{padding-left:11px;padding-right:11px}.hero{min-height:248px;padding:24px 18px}.hero-copy{max-width:100%}.hero p{max-width:73%}.hero h1{font-size:47px}.ball-scene{right:-64px;opacity:.34}.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.sport-card{padding:14px;min-height:116px}.competition-grid{grid-template-columns:1fr}.section-head{gap:8px}.panel{padding:11px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 
 </head>
@@ -214,6 +209,8 @@ h1{letter-spacing:-.04em}.subtitle{color:#9aafbc}.hero{min-height:265px;border-c
   <div class="competition-grid" id="sportCompetitions"></div>
   <div class="section-head"><h2>Resultados</h2></div>
   <div class="panel" id="sportMatches"><div class="empty">Selecciona una competición.</div></div>
+  <div class="section-head" id="sportNewsHead" hidden><h2 id="sportNewsTitle">Actualidad</h2><button type="button" id="refreshSportNews">Actualizar ↻</button></div>
+  <div class="panel" id="sportNews" hidden aria-live="polite"></div>
  </section>
 
  <section class="page" id="page-detail">
@@ -291,7 +288,7 @@ function compCard(c){
 function sportName(id){return sports.find(s=>s.id===id)?.name||id}
 function renderBasics(){
  $("sportCards").innerHTML=sports.map(s=>`<div class="sport-card" data-sport="${s.id}"><div class="emoji">${s.icon}</div><strong>${s.name}</strong><small>${s.desc}</small></div>`).join("");
- $("featured").innerHTML=competitions.filter(c=>["laliga","premier","champions","nba","rfaf","f1"].includes(c.id)).map(compCard).join("");
+ $("featured").innerHTML=competitions.filter(c=>["laliga","premier","champions","nba","f1"].includes(c.id)).map(compCard).join("");
  $("compFilters").innerHTML=`<button class="chip active" data-cfilter="all">Todos</button>`+sports.map(s=>`<button class="chip" data-cfilter="${s.id}">${s.icon} ${s.name}</button>`).join("");
  $("resultFilters").innerHTML=sports.map(s=>`<button class="chip ${s.id===resultSport?"active":""}" data-rfilter="${s.id}">${s.icon} ${s.name}</button>`).join("");
  renderCompetitions();renderFavorites();
@@ -317,6 +314,8 @@ function openSport(id){
  $("sportCompetitions").innerHTML=list.map(compCard).join("");
  $("sportMatches").innerHTML=`<div class="empty">Selecciona una competición para ver sus resultados.</div>`;
  showPage("sport");
+ const newsFeeds={football:["Últimas noticias de fútbol · MARCA","https://www.marca.com/rss/futbol.xml?output=1"],basketball:["Últimas noticias de baloncesto · MARCA","https://www.marca.com/rss/baloncesto.xml?output=1"],tennis:["Últimas noticias de tenis · MARCA","https://www.marca.com/rss/tenis.xml?output=1"]};
+ const feed=newsFeeds[id];$("sportNewsHead").hidden=!feed;$("sportNews").hidden=!feed;if(feed){$("sportNewsTitle").textContent=feed[0];loadMarcaNews(feed[1],"sportNews")}
 }
 function openCompetition(id){
  const c=competitions.find(x=>x.id===id);if(!c)return;
@@ -405,15 +404,15 @@ window.retryEvents=(id,target)=>{
  if(c)loadEvents(c,target);
 };
 
-async function loadMarcaNews(){
- const target=$("marcaNews");
+async function loadMarcaNews(feedUrl="https://www.marca.com/rss/futbol.xml?output=1",targetId="marcaNews"){
+ const target=$(targetId);
  target.innerHTML=`<div class="empty">Cargando noticias actuales de MARCA...</div>`;
  try{
-  const url="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent("https://www.marca.com/rss/futbol.xml?output=1");
+  const url="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(feedUrl);
   const data=await getJSON(url);
   const items=(data.status==="ok"?data.items:[])||[];
   if(!items.length)throw Error("Feed sin noticias");
-  target.innerHTML=items.slice(0,8).map(item=>{
+  target.innerHTML=`<div class="news-label">Fuente verificada · MARCA</div>`+items.slice(0,8).map(item=>{
    const title=String(item.title||"Noticia de fútbol").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
    let link="https://www.marca.com/futbol.html";
    try{const parsed=new URL(item.link);if(parsed.protocol==="https:"&&parsed.hostname==="www.marca.com")link=parsed.href}catch{}
@@ -421,7 +420,7 @@ async function loadMarcaNews(){
    return `<a class="match marca-item" href="${link}" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:inherit"><div class="teams"><div class="teamline" style="white-space:normal;font-weight:700">${title}</div><div class="match-meta">MARCA · ${date}</div></div><span aria-hidden="true" style="color:var(--cyan)">↗</span></a>`;
   }).join("");
  }catch(e){
-  target.innerHTML=`<div class="empty">No se pudieron actualizar las noticias de MARCA ahora mismo.<br><button class="secondary-btn" type="button" onclick="loadMarcaNews()">Reintentar</button></div>`;
+  target.innerHTML=`<div class="empty">No hay noticias de MARCA disponibles para este deporte ahora mismo. No se mostrarán noticias de otra disciplina.<br><button class="secondary-btn" type="button" onclick="loadMarcaNews(${JSON.stringify(feedUrl)},${JSON.stringify(targetId)})">Reintentar</button></div>`;
  }
 }
 
@@ -545,25 +544,32 @@ async function openMatch(id){
 }
 
 function searchItems(q){
- const query=norm(q);if(!query)return [];
- const words=query.split(/\s+/).filter(Boolean);
- const expansions={
-  "liga":["laliga","primera","segunda","hypermotion","premier","serie a","bundesliga","ligue 1","europa league","champions"],
-  "laliga":["laliga ea sports","laliga santander","primera division"],
-  "champions":["uefa champions league","ucl","copa europa"],
-  "nba":["baloncesto","basketball"],"baloncesto":["nba","acb","liga endesa"],
-  "federacion andaluza":["rfaf","futbol andaluz"],"rfaf":["federacion andaluza","futbol andaluz"],
-  "f1":["formula 1","formula uno","gran premio"],"atp":["tenis","atp tour"],
-  "nfl":["futbol americano"]
- };
- const terms=[query,...(expansions[query]||[])].map(norm);
- const score=text=>{const hay=norm(text);if(terms.some(t=>hay.includes(t)))return 100;
-  const tokens=hay.split(/[^a-z0-9]+/).filter(Boolean);let n=0;
-  for(const w of words)if(tokens.some(t=>t.startsWith(w)||w.startsWith(t)))n++;
-  return words.length&&n===words.length?60+n:0};
- const comps=competitions.map(c=>({c,score:score([c.name,c.short,c.country,c.aliases,sportName(c.sport)].join(" "))})).filter(x=>x.score).sort((a,b)=>b.score-a.score);
- const teams=Object.entries(eventStore).flatMap(([id,obj])=>[getTeam(obj.event,"home"),getTeam(obj.event,"away")].map(t=>({id,name:eventName(t),compId:obj.compId,score:score(eventName(t))}))).filter(t=>t.score).sort((a,b)=>b.score-a.score);
- return [...comps.map(({c,score})=>({type:"comp",id:c.id,name:c.name,sub:"Competición · "+c.country,score})),...teams.map(t=>({type:"team",id:t.id,name:t.name,sub:"Equipo · "+(competitions.find(c=>c.id===t.compId)?.name||"Deporte"),score:t.score}))].sort((a,b)=>b.score-a.score).slice(0,12).map(({score,...x})=>x);
+ const query=norm(q);
+ if(!query)return [];
+
+ const comps=competitions.filter(c=>
+  norm([c.name,c.short,c.country,c.aliases].join(" ")).includes(query)
+ );
+
+ const teams=Object.entries(eventStore).flatMap(([id,obj])=>{
+  const e=obj.event;
+  return [getTeam(e,"home"),getTeam(e,"away")]
+   .map(t=>({id,name:eventName(t),compId:obj.compId}))
+   .filter(t=>norm(t.name).includes(query));
+ });
+
+ return [
+  ...comps.map(c=>({
+   type:"comp",id:c.id,name:c.name,
+   sub:"Competición · "+c.country
+  })),
+  ...[...new Map(teams.map(t=>[t.name,t])).values()]
+   .slice(0,8)
+   .map(t=>({
+    type:"team",id:t.id,name:t.name,
+    sub:"Equipo · "+(competitions.find(c=>c.id===t.compId)?.name||"Deporte")
+   }))
+ ].slice(0,12);
 }
 
 function doSearch(q){
@@ -605,12 +611,9 @@ $("search").addEventListener("keydown",e=>{
 document.addEventListener("click",e=>{
  const nav=e.target.closest("[data-page]");
  if(nav){
-  if(nav.dataset.page==="home"&&window.parent!==window){
-   window.parent.postMessage({type:"dmf-sports-home"},"https://bruh-portal.github.io");
-  }else{
-   showPage(nav.dataset.page);
-   if(nav.dataset.page==="results")loadResults();
-  }
+  if(nav.dataset.page==="home"&&window.parent!==window){window.parent.postMessage({type:"dmf-sports-home"},"https://bruh-portal.github.io");return}
+  showPage(nav.dataset.page);
+  if(nav.dataset.page==="results")loadResults();
  }
 
  const goto=e.target.closest("[data-goto]");
@@ -693,7 +696,8 @@ $("refresh").onclick=async()=>{
 renderBasics();
 loadHome();
 loadMarcaNews();
-$("refreshMarca").onclick=loadMarcaNews;
+$("refreshMarca").onclick=()=>loadMarcaNews();
+$("refreshSportNews").onclick=()=>{const feeds={football:"https://www.marca.com/rss/futbol.xml?output=1",basketball:"https://www.marca.com/rss/baloncesto.xml?output=1",tennis:"https://www.marca.com/rss/tenis.xml?output=1"};if(feeds[currentSport])loadMarcaNews(feeds[currentSport],"sportNews")};
 setInterval(loadMarcaNews,10*60*1000);
 </script>
 </body>
